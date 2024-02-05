@@ -12,11 +12,11 @@ const Tabs = () => {
 
     return (
         <div className="Tabs">
-            <div>
-                <ul className="nav">
-                    <li onClick={() => handleTabClick("Login")}>Login</li>
-                </ul>
-            </div>
+            {/*<div>*/}
+            {/*    <ul className="nav">*/}
+            {/*        <li onClick={() => handleTabClick("Login")}>Login</li>*/}
+            {/*    </ul>*/}
+            {/*</div>*/}
             <div>
                 <input className="Search"
                        type="text"

@@ -13,7 +13,7 @@ const Contents = () => {
 
     return (
         <div className="Contents">
-            { selectedTab === "Login" && <Login /> }
+            {/*{ selectedTab === "Login" && <Login /> }*/}
             { selectedTab === "Join" && <Join /> }
             { selectedTab === "TodoList" && <TodoList /> }
             { selectedTab === "Today" && <Today /> }
