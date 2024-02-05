@@ -1,0 +1,112 @@
+/* Remove browser defaults */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style Home.js wrapper */
+ .Home {
+   display: grid;
+   grid-template-columns: 1.5fr 8.5fr;
+   grid-template-rows: 1fr 9fr;
+   grid-template-areas:
+           "tab header"
+           "tab contents";
+   width: 100vw;
+   height: 100vh;
+   overflow: hidden;
+ }
+
+/* Tab Container */
+.Tabs {
+  grid-area: tab;
+  width: 100%;
+  height: 100%;
+  background: #053742;
+  padding-top: 4rem;
+  color: #E8F0F2;
+  /*@media (max-width: 769px) {*/
+  /*  padding: 2rem 0;*/
+  /*}*/
+}
+.Tabs input {
+  width: 100%;
+}
+
+/* Tab Navigation */
+ul.nav li {
+  padding: 1rem;
+  list-style: none;
+  cursor: pointer;
+  transition: all 0.7s;
+}
+ul.nav li:hover {
+  background: rgba(50, 224, 196, 0.15);
+}
+ul.nav li.active {
+  background: #39A2DB;
+}
+
+/* Header Container */
+.Header {
+  grid-area: header;
+  border-bottom: 2px solid darkslategray;
+  height: 100%;
+}
+
+/* Todo Container */
+.Contents {
+  grid-area: contents;
+}
+.todo-list {
+  width: 100%;
+  display: flex;
+}
+.list-item {
+  width: 60%;
+}
+.list-item div input {
+  padding: 10px 0 10px 10px;
+  font-size: 20px;
+  width: 90%;
+}
+.list-item div button {
+  width: 10%;
+}
+.list-item ul li {
+  list-style: none;
+}
+.list-item ul li div {
+  background: darkslategray;
+  border-radius: 5px;
+  margin: 2px;
+  padding: 10px 0 10px 10px;
+  color: white;
+  width: 100%;
+}
+
+/* Todo Modal Container */
+.todo-modal {
+  width: 40%;
+  margin-left: 2%;
+}
+.modal-container input {
+  width: 90%;
+  padding: 10px 0 10px 10px;
+}
+.modal-container textarea {
+  width: 90%;
+  height: 20%;
+}
+.modal-container {
+  position: relative;
+  height: 100%;
+}
+.btn-modal {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+}
