@@ -1,4 +1,3 @@
-// Tabs.js
 import React, { useState } from "react";
 import { useAppContext } from "../../Context/AppContext";
 import '../../css/App.css';
