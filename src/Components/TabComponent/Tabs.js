@@ -7,6 +7,7 @@ const Tabs = () => {
     const [search, setSearch] = useState("");
     const [placeholder, setPlaceholder] = useState("Search");
     const [boardPairs, setBoardPairs] = useState([]);
+    const [newBoardName, setNewBoardName] = useState("");
     const { setSelectedTab } = useAppContext();
     const { setContentsComponents } = useAppContext();
     const onBlur = () => {
@@ -18,17 +19,18 @@ const Tabs = () => {
     };
 
     const handleAddBoardClick = () => {
-        const newMainBoard = `Main Board${boardPairs.length + 1}`;
-
-        setBoardPairs((prevPairs) => [
-            ...prevPairs,
-            { mainBoard: newMainBoard }
-        ]);
-        setContentsComponents((prevComponents) => [
-            ...prevComponents,
-            { tab: newMainBoard, component: () => <TodoList mainBoard={newMainBoard} /> }
-        ]);
-        setSelectedTab(newMainBoard);
+        if (newBoardName.trim() !== "") {
+            setBoardPairs((prevPairs) => [
+                ...prevPairs,
+                { mainBoard: newBoardName }
+            ]);
+            setContentsComponents((prevComponents) => [
+                ...prevComponents,
+                { tab: newBoardName, component: () => <TodoList mainBoard={newBoardName} /> }
+            ]);
+            setSelectedTab(newBoardName);
+            setNewBoardName("");
+        }
     };
 
 
@@ -41,7 +43,15 @@ const Tabs = () => {
                             {mainBoard}
                         </li>
                     ))}
-                    <li onClick={handleAddBoardClick}>+ Add Board</li>
+                    <li>
+                        <input
+                            type="text"
+                            value={newBoardName}
+                            onChange={(e) => setNewBoardName(e.target.value)}
+                            placeholder="Enter Board Name"
+                        />
+                        <button onClick={handleAddBoardClick}>+ Add Board</button>
+                    </li>
                 </ul>
             </div>
 

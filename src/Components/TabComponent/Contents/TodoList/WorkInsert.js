@@ -1,6 +1,6 @@
 import { MdAdd } from 'react-icons/md';
 import { useCallback, useState } from 'react';
-// import './WorkInsert.scss'
+import '../../../../css/WorkInsert.css'
 const WorkInsert = ({ onInsert }) => {
     const [value, setValue] = useState('');
 

@@ -1,7 +1,9 @@
 .WorkInsert {
-  display: flex;
-  background: #495057;
-  input {
+    display: flex;
+    background: #495057;
+}
+
+.WorkInsert .input {
     background: none;
     outline: none;
     border: none;
@@ -9,11 +11,14 @@
     font-size: 1.125rem;
     line-height: 1.5;
     color: white;
-    &::placeholder { color: #dee2e6;
-    }
-    flex:1;
-  }
-  button{
+    flex: 1;
+}
+
+.WorkInsert .input::placeholder {
+    color: #dee2e6;
+}
+
+.WorkInsert .button {
     background: none;
     outline: none;
     border: none;
@@ -25,10 +30,9 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    transition: 0.1s backround ease-in;
-    &:hover {
-      background: #adb5bd;
-    }
-  }
+    transition: 0.1s background ease-in;
+}
 
+.WorkInsert .button:hover {
+    background: #adb5bd;
 }
