@@ -1,5 +1,5 @@
 import WorkListItem from "./WorkListItem";
-// import './WorkList.scss'
+import '../../../../css/WorkList.css'
 const WorkList = ({ todos, onRemove, onToggle }) => {
     return (
         <div className="WorkList">
