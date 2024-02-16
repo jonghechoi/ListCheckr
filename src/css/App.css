@@ -20,6 +20,7 @@
 
 /* Tab Container */
 .Tabs {
+  position: relative;
   grid-area: tab;
   width: 100%;
   height: 100%;
@@ -46,6 +47,19 @@ ul.nav li:hover {
 }
 ul.nav li.active {
   background: #39A2DB;
+}
+ul.nav li button.btn_chat {
+  float: right;
+}
+.btn_chat {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.btn_chat:hover {
+  background-color: #2980b9;
 }
 
 /* Header Container */

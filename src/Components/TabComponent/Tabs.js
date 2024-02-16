@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useAppContext } from "../../Context/AppContext";
 import '../../css/App.css';
 import TodoList from "./Contents/TodoList/TodoList";
+import ChatModal from "../Modal/ChatModal";
 
 const Tabs = () => {
     const [search, setSearch] = useState("");
     const [placeholder, setPlaceholder] = useState("Search");
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
+    const [isChatModalOpen, setChatModalOpen] = useState(false);
     const { setSelectedTab } = useAppContext();
     const { setContentsComponents } = useAppContext();
     const onBlur = () => {
@@ -33,6 +35,9 @@ const Tabs = () => {
         }
     };
 
+    const handleChatClick = () => {
+        setChatModalOpen(true);
+    }
 
     return (
         <div className="Tabs">
@@ -41,6 +46,7 @@ const Tabs = () => {
                     {boardPairs.map(({ mainBoard }, index) => (
                         <li key={index} onClick={() => handleTabClick(mainBoard)}>
                             {mainBoard}
+                            <button className="btn_chat" onClick={handleChatClick}>Chat!</button>
                         </li>
                     ))}
                     <li>
@@ -66,6 +72,8 @@ const Tabs = () => {
                     onBlur={onBlur}
                 />
             </div>
+
+            {isChatModalOpen && <ChatModal onClose={() => setChatModalOpen(false)} />}
         </div>
     );
 };
