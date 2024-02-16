@@ -2,74 +2,72 @@ import { useCallback, useRef, useState, useEffect } from 'react';
 import WorkTemplate from "./WorkTemplate";
 import WorkInsert from "./WorkInsert";
 import WorkList from "./WorkList";
+import '../../../../css/TodoList.css'
 
+const TodoList = ({ mainBoard }) => {
+    const [todoLists, setTodoLists] = useState([]);
 
-const TodoList = ({mainBoard}) => {
+    const addTodoList = () => {
+        const newTodoList = {
+            id: todoLists.length + 1,
+            title: 'AddWork',
+            todos: [
+                { id: 1, text: '새로운 할 일', checked: false },
+            ],
+        };
+        setTodoLists((prevTodoLists) => [...prevTodoLists, newTodoList]);
+    };
 
-    useEffect(() => {
-        console.log(`TodoList for mainBoard: ${mainBoard}`);
-    }, [mainBoard]);
+    const onInsert = (text, todoListId) => {
+        setTodoLists((prevTodoLists) =>
+            prevTodoLists.map((todoList) =>
+                todoList.id === todoListId
+                    ? { ...todoList, todos: [...todoList.todos, { id: todoList.todos.length + 1, text, checked: false }] }
+                    : todoList
+            )
+        );
+    };
 
-    const [todos, setTodos] = useState([
-        {
-            id: 1,
-            text: 'Todo 앱 기획하기',
-            checked: true,
-        },
-        {
-            id: 2,
-            text: '프런트 구현해보기',
-            checked: true,
-        },
-        {
-            id: 3,
-            text: 'DB 연결해보기',
-            checked: false,
-        },
-    ]);
+    const onRemove = (todoListId, todoId) => {
+        setTodoLists((prevTodoLists) =>
+            prevTodoLists.map((todoList) =>
+                todoList.id === todoListId
+                    ? { ...todoList, todos: todoList.todos.filter((todo) => todo.id !== todoId) }
+                    : todoList
+            )
+        );
+    };
 
-    const nextId = useRef(4);
-
-    const onInsert = useCallback(
-        (text) => {
-            const todo = {
-                id: nextId.current,
-                text,
-                checked: false,
-            };
-            setTodos(todos.concat(todo));
-            nextId.current += 1;
-        },
-        [todos],
-    );
-
-    const onRemove = useCallback(
-        (id) => {
-            setTodos(todos.filter((todo) => todo.id !== id));
-        },
-        [todos],
-    );
-
-    const onToggle = useCallback(
-        (id) => {
-            setTodos(
-                todos.map((todo) =>
-                    todo.id === id ? { ...todo, checked: !todo.checked } : todo,
-                ),
-            );
-        },
-        [todos],
-    );
-
+    const onToggle = (todoListId, todoId) => {
+        setTodoLists((prevTodoLists) =>
+            prevTodoLists.map((todoList) =>
+                todoList.id === todoListId
+                    ? {
+                        ...todoList,
+                        todos: todoList.todos.map((todo) =>
+                            todo.id === todoId ? { ...todo, checked: !todo.checked } : todo
+                        ),
+                    }
+                    : todoList
+            )
+        );
+    };
 
     return (
-        <div>
-                <div>
+        <div className="todo-list-container">
+            {todoLists.map((todoList) => (
+                <div key={todoList.id} className="todo-list-item">
                     <WorkTemplate>
-                        <WorkInsert onInsert={onInsert} />
-                        <WorkList todos={todos} onRemove={onRemove} onToggle={onToggle} />
+                        <WorkList
+                            todos={todoList.todos}
+                            onRemove={(todoId) => onRemove(todoList.id, todoId)}
+                            onToggle={(todoId) => onToggle(todoList.id, todoId)}
+                        />
+                        <WorkInsert onInsert={(text) => onInsert(text, todoList.id)} />
                     </WorkTemplate>
                 </div>
+            ))}
+            <button className="add-work-button" onClick={addTodoList}>+AddWork</button>
         </div>
     );
 };

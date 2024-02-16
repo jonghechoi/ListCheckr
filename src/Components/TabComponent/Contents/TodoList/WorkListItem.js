@@ -7,9 +7,15 @@ import cn from 'classnames';
 import '../../../../css/WorkListItem.css'
 const WorkListItem = ({ todo, onRemove, onToggle }) => {
     const { id, text, checked } = todo;
+
+    const handleCheckboxClick = (e) => {
+        if (!e.target.classList.contains('text')) {
+            onToggle(id);
+        }
+    };
     return (
         <div className="WorkListItem">
-            <div className={cn('checkbox', { checked })} onClick={() => onToggle(id)}>
+            <div className={cn('checkbox', { checked })} onClick={handleCheckboxClick}>
                 {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
                 <div className="text">{text}</div>
             </div>
