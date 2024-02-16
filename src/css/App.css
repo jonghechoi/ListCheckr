@@ -58,6 +58,9 @@ ul.nav li.active {
 /* Todo Container */
 .Contents {
   grid-area: contents;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
 }
 .todo-list {
   width: 100%;

@@ -1,0 +1,15 @@
+.todo-list-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.todo-list-item {
+    margin-right: 10px;
+}
+
+.add-work-button {
+    padding: 8px;
+    font-size: 16px;
+    margin-right: 10px;
+}
