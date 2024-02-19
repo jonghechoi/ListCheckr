@@ -1,8 +1,10 @@
 import React from "react";
 
-const Header = () => {
+const Header = ({ loggedInUserId }) => {
     return (
-        <div className="Header"></div>
+        <div className="header">
+            <p>{loggedInUserId}님 어서오세요!</p>
+        </div>
     );
 }
 

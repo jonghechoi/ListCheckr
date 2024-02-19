@@ -8,7 +8,7 @@ import Header from "../Header/Header"
 import Contents from "../TabComponent/Contents/Contents"
 import {Home} from "../Home/Home";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const navigate = useNavigate();
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
@@ -35,6 +35,7 @@ const Login = () => {
 
         // 임시 로그인 성공 처리
         setLoggedIn(!isLoggedIn);
+        onLogin(id);
         if(isLoggedIn)
             navigate('/home');
     }

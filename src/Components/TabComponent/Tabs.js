@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useAppContext } from "../../Context/AppContext";
 import '../../css/App.css';
 import TodoList from "./Contents/TodoList/TodoList";
@@ -9,9 +9,11 @@ const Tabs = () => {
     const [placeholder, setPlaceholder] = useState("Search");
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
-    const [isChatModalOpen, setChatModalOpen] = useState(false);
-    const { setSelectedTab } = useAppContext();
-    const { setContentsComponents } = useAppContext();
+    const [isChatModalOpen, setChatModalOpen] = useState({});
+    // const { setSelectedTab } = useAppContext();
+    // const { setContentsComponents } = useAppContext();
+    const { selectedTab, setSelectedTab, setContentsComponents } = useAppContext();
+
     const onBlur = () => {
         if (!placeholder) setPlaceholder("Search");
     };
@@ -20,23 +22,31 @@ const Tabs = () => {
         setSelectedTab(mainBoard);
     };
 
+    useEffect(() => {
+        setChatModalOpen({});
+    }, [selectedTab]);
+
     const handleAddBoardClick = () => {
         if (newBoardName.trim() !== "") {
+            const newBoard = { mainBoard: newBoardName };
             setBoardPairs((prevPairs) => [
                 ...prevPairs,
-                { mainBoard: newBoardName }
+                // { mainBoard: newBoardName }
+                newBoard
             ]);
             setContentsComponents((prevComponents) => [
                 ...prevComponents,
                 { tab: newBoardName, component: () => <TodoList mainBoard={newBoardName} /> }
             ]);
             setSelectedTab(newBoardName);
+            setChatModalOpen((prev) => ({ ...prev, [newBoardName]: false }));
             setNewBoardName("");
         }
     };
 
-    const handleChatClick = () => {
-        setChatModalOpen(true);
+    const handleChatClick = (mainBoard) => {
+        // setChatModalOpen(true);
+        setChatModalOpen((prev) => ({ ...prev, [mainBoard]: true }));
     }
 
     return (
@@ -44,9 +54,31 @@ const Tabs = () => {
             <div>
                 <ul className="nav">
                     {boardPairs.map(({ mainBoard }, index) => (
-                        <li key={index} onClick={() => handleTabClick(mainBoard)}>
+                        <li
+                            key={index}
+                            onClick={() => handleTabClick(mainBoard)}
+                            className={selectedTab === mainBoard ? "active" : ""}
+                        >
                             {mainBoard}
-                            <button className="btn_chat" onClick={handleChatClick}>Chat!</button>
+                            {selectedTab === mainBoard && (
+                                <button
+                                    className={`btn_chat ${ selectedTab === mainBoard ? "active" : "" }`}
+                                    onClick={() => handleChatClick(mainBoard)}
+                                >
+                                    Chat!
+                                </button>
+                            )}
+                            {isChatModalOpen[mainBoard] && (
+                                <ChatModal
+                                    chatModalName={mainBoard}
+                                    onClose={() =>
+                                        setChatModalOpen((prev) => ({
+                                            ...prev,
+                                            [mainBoard]: false,
+                                        }))
+                                    }
+                                />
+                            )}
                         </li>
                     ))}
                     <li>
@@ -72,12 +104,8 @@ const Tabs = () => {
                     onBlur={onBlur}
                 />
             </div>
-
-            {isChatModalOpen && <ChatModal onClose={() => setChatModalOpen(false)} />}
         </div>
     );
 };
 
 export default Tabs;
-
-

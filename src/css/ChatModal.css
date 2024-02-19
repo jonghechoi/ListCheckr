@@ -1,18 +1,32 @@
 .modal-overlay {
     position: absolute;
     bottom: 0;
-    height: 20%;
+    height: 50%;
     width: 100%;
     background: rgba(0, 0, 0, 0.5); /* 배경에 어둡게 처리 */
     justify-content: center;
     align-items: center;
     z-index: 1000; /* 다른 컴포넌트 위에 올라가도록 설정 (값은 상황에 따라 조절) */
 }
-
-.modal-container {
+.modal-overlay > .modal-container {
     background: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1001; /* 모달이 다른 컴포넌트 위에 위치하도록 설정 (값은 상황에 따라 조절) */
+}
+.modal-overlay > .modal-container > .modal-content {
+    height: 80%;
+    background-color: cadetblue;
+    display: flex;
+}
+.modal-overlay > .modal-container > .modal-content > button {
+    height: 20%;
+}
+
+/* Chatting */
+.modal-overlay > .modal-container > .modal-content > input {
+    width: 50%;
+    margin-top: auto;
+    margin-left: auto;
 }

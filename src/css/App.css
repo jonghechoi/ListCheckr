@@ -46,7 +46,7 @@ ul.nav li:hover {
   background: rgba(50, 224, 196, 0.15);
 }
 ul.nav li.active {
-  background: #39A2DB;
+  background: cadetblue;
 }
 ul.nav li button.btn_chat {
   float: right;
@@ -63,10 +63,17 @@ ul.nav li button.btn_chat {
 }
 
 /* Header Container */
-.Header {
+.header {
   grid-area: header;
   border-bottom: 2px solid darkslategray;
   height: 100%;
+  position: relative;
+}
+.header > p {
+  /*position: relative;*/
+  float: right;
+  margin-top: 10%;
+  border: none;
 }
 
 /* Todo Container */
