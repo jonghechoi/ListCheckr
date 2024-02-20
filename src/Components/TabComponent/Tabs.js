@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useAppContext } from "../../Context/AppContext";
 import '../../css/App.css';
 import TodoList from "./Contents/TodoList/TodoList";
+import axios from "axios";
 
 const Tabs = () => {
     const [search, setSearch] = useState("");
@@ -18,21 +19,39 @@ const Tabs = () => {
         setSelectedTab(mainBoard);
     };
 
-    const handleAddBoardClick = () => {
-        if (newBoardName.trim() !== "") {
-            setBoardPairs((prevPairs) => [
-                ...prevPairs,
-                { mainBoard: newBoardName }
-            ]);
-            setContentsComponents((prevComponents) => [
-                ...prevComponents,
-                { tab: newBoardName, component: () => <TodoList mainBoard={newBoardName} /> }
-            ]);
-            setSelectedTab(newBoardName);
-            setNewBoardName("");
+    const fetchBoards = async () => {
+        try {
+            const response = await axios.get('/api/boards');
+            setBoardPairs(response.data.map(board => ({ mainBoard: board.mainBoard })));
+        } catch (error) {
+            console.error('보드 목록 가져오기 중 에러 발생:', error);
         }
     };
 
+    const handleAddBoardClick = async() => {
+        if (newBoardName.trim() !== "") {
+            try{
+                await axios.post('/api/boards', { mainBoard: newBoardName });
+                await fetchBoards();
+
+                setSelectedTab(newBoardName);
+                setNewBoardName("");
+            }catch (error){
+                console.error('새로운 보드 추가 중 에러 발생:', error);
+            }
+
+        }
+    };
+
+    useEffect(() => {
+        fetchBoards();
+    }, []);
+    useEffect(()=>{
+        setContentsComponents((prevComponents) => [
+            ...prevComponents,
+            ...boardPairs.map(board => ({ tab: board.mainBoard, component: () => <TodoList mainBoard={board.mainBoard} /> })),
+        ]);
+    },[boardPairs,setContentsComponents]);
 
     return (
         <div className="Tabs">
