@@ -6,15 +6,15 @@ import Contents from "../TabComponent/Contents/Contents";
 import '../../css/App.css';
 import Login from "../Login/Login";
 
-const Home = () => {
+const Home = ({ loggedInUserId }) => {
     return (
         <div className="Home">
             {/*{isLoggedIn ? (*/}
-                <>
-                    <Tabs />
-                    <Header />
-                    <Contents />
-                </>
+            <>
+                <Header loggedInUserId={loggedInUserId} />
+                <Tabs />
+                <Contents />
+            </>
         </div>
     );
 }

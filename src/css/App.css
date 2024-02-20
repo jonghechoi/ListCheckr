@@ -35,6 +35,20 @@
 }
 
 /* Tab Navigation */
+/* 기존 */
+/*ul.nav li {*/
+/*  padding: 1rem;*/
+/*  list-style: none;*/
+/*  cursor: pointer;*/
+/*  transition: all 0.7s;*/
+/*}*/
+/*ul.nav li:hover {*/
+/*  background: rgba(50, 224, 196, 0.15);*/
+/*}*/
+/*ul.nav li.active {*/
+/*  background: #39A2DB;*/
+/*}*/
+/* 종희 */
 ul.nav li {
   padding: 1rem;
   list-style: none;
@@ -45,14 +59,41 @@ ul.nav li:hover {
   background: rgba(50, 224, 196, 0.15);
 }
 ul.nav li.active {
-  background: #39A2DB;
+  background: cadetblue;
+}
+ul.nav li button.btn_chat {
+  float: right;
+}
+.btn_chat {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.btn_chat:hover {
+  background-color: #2980b9;
 }
 
 /* Header Container */
-.Header {
+/* 기존 */
+/*.Header {*/
+/*  grid-area: header;*/
+/*  border-bottom: 2px solid darkslategray;*/
+/*  height: 100%;*/
+/*}*/
+/* 종희 */
+.header {
   grid-area: header;
   border-bottom: 2px solid darkslategray;
   height: 100%;
+  position: relative;
+}
+.header > p {
+  /*position: relative;*/
+  float: right;
+  margin-top: 10%;
+  border: none;
 }
 
 /* Todo Container */
