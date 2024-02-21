@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../Context/AppContext";
 import '../../css/App.css';
 import TodoList from "./Contents/TodoList/TodoList";
@@ -97,8 +97,31 @@ const Tabs = () => {
                     {/*))}*/}
                     {/*종희*/}
                     {boardPairs.map(({ mainBoard }, index) => (
-                        <li key={index} onClick={() => handleTabClick(mainBoard)}>
+                        <li
+                            key={index}
+                            onClick={() => handleTabClick(mainBoard)}
+                            className={selectedTab === mainBoard ? "active" : ""}
+                        >
                             {mainBoard}
+                            {selectedTab === mainBoard && (
+                                <button
+                                    className={`btn_chat ${ selectedTab === mainBoard ? "active" : "" }`}
+                                    onClick={() => handleChatClick(mainBoard)}
+                                >
+                                    Chat!
+                                </button>
+                            )}
+                            {isChatModalOpen[mainBoard] && (
+                                <ChatModal
+                                    chatModalName={mainBoard}
+                                    onClose={() =>
+                                        setChatModalOpen((prev) => ({
+                                            ...prev,
+                                            [mainBoard]: false,
+                                        }))
+                                    }
+                                />
+                            )}
                         </li>
                     ))}
                     <li>
