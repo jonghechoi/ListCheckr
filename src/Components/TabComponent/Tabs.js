@@ -10,11 +10,7 @@ const Tabs = () => {
     const [placeholder, setPlaceholder] = useState("Search");
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
-    // 종희
     const [isChatModalOpen, setChatModalOpen] = useState({});
-    // 정훈형님
-    // const { setSelectedTab } = useAppContext();
-    // const { setContentsComponents } = useAppContext();
     const { selectedTab, setSelectedTab, setContentsComponents } = useAppContext();
 
     const onBlur = () => {
@@ -25,7 +21,6 @@ const Tabs = () => {
         setSelectedTab(mainBoard);
     };
 
-    // 종희
     useEffect(() => {
         setChatModalOpen({});
     }, [selectedTab]);
@@ -56,14 +51,14 @@ const Tabs = () => {
 
     const handleAddBoardClick = async() => {
         if (newBoardName.trim() !== "") {
-            try{
+            try {
                 // API 요청 막기 위한 주석
                 // await axios.post('/api/boards', { mainBoard: newBoardName });
                 await fetchBoards();
 
                 setSelectedTab(newBoardName);
                 setNewBoardName("");
-            }catch (error){
+            } catch (error){
                 console.error('새로운 보드 추가 중 에러 발생:', error);
             }
 
@@ -76,7 +71,7 @@ const Tabs = () => {
     }
 
     // useEffect(() => {
-    //     fetchBoards().then(r => console.log("여기 useEffect 작동"));
+    //     fetchBoards();
     // }, []);
 
     useEffect(()=>{
@@ -90,12 +85,6 @@ const Tabs = () => {
         <div className="Tabs">
             <div>
                 <ul className="nav">
-                    {/*{boardPairs.map(({ mainBoard }, index) => (*/}
-                    {/*    <li key={index} onClick={() => handleTabClick(mainBoard)}>*/}
-                    {/*        {mainBoard}*/}
-                    {/*    </li>*/}
-                    {/*))}*/}
-                    {/*종희*/}
                     {boardPairs.map(({ mainBoard }, index) => (
                         <li
                             key={index}
