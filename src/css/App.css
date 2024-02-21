@@ -36,6 +36,20 @@
 }
 
 /* Tab Navigation */
+/* 기존 */
+/*ul.nav li {*/
+/*  padding: 1rem;*/
+/*  list-style: none;*/
+/*  cursor: pointer;*/
+/*  transition: all 0.7s;*/
+/*}*/
+/*ul.nav li:hover {*/
+/*  background: rgba(50, 224, 196, 0.15);*/
+/*}*/
+/*ul.nav li.active {*/
+/*  background: #39A2DB;*/
+/*}*/
+/* 종희 */
 ul.nav li {
   padding: 1rem;
   list-style: none;
@@ -63,6 +77,13 @@ ul.nav li button.btn_chat {
 }
 
 /* Header Container */
+/* 기존 */
+/*.Header {*/
+/*  grid-area: header;*/
+/*  border-bottom: 2px solid darkslategray;*/
+/*  height: 100%;*/
+/*}*/
+/* 종희 */
 .header {
   grid-area: header;
   border-bottom: 2px solid darkslategray;
