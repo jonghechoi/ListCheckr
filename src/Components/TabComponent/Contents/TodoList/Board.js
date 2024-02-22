@@ -4,15 +4,17 @@ import WorkInsert from "./WorkInsert";
 import WorkList from "./WorkList";
 import '../../../../css/TodoList.css'
 
-const TodoList = ({ mainBoard }) => {
+const Board = ({ boardId }) => {
     const [todoLists, setTodoLists] = useState([]);
-
+    useEffect(() => {
+        console.log("Selected Board ID in Board:", boardId);
+    }, [boardId]);
     const addTodoList = () => {
         const newTodoList = {
-            id: todoLists.length + 1,
+            workId: todoLists.length + 1,
             title: 'AddWork',
             todos: [
-                { id: 1, text: '새로운 할 일', checked: false },
+                { todoId: 1, text: '새로운 할 일', checked: false },
             ],
         };
         setTodoLists((prevTodoLists) => [...prevTodoLists, newTodoList]);
@@ -21,8 +23,8 @@ const TodoList = ({ mainBoard }) => {
     const onInsert = (text, todoListId) => {
         setTodoLists((prevTodoLists) =>
             prevTodoLists.map((todoList) =>
-                todoList.id === todoListId
-                    ? { ...todoList, todos: [...todoList.todos, { id: todoList.todos.length + 1, text, checked: false }] }
+                todoList.workId === todoListId
+                    ? { ...todoList, todos: [...todoList.todos, { todoId: todoList.todos.length + 1, text, checked: false }] }
                     : todoList
             )
         );
@@ -31,8 +33,8 @@ const TodoList = ({ mainBoard }) => {
     const onRemove = (todoListId, todoId) => {
         setTodoLists((prevTodoLists) =>
             prevTodoLists.map((todoList) =>
-                todoList.id === todoListId
-                    ? { ...todoList, todos: todoList.todos.filter((todo) => todo.id !== todoId) }
+                todoList.workId === todoListId
+                    ? { ...todoList, todos: todoList.todos.filter((todo) => todo.todoId !== todoId) }
                     : todoList
             )
         );
@@ -41,11 +43,11 @@ const TodoList = ({ mainBoard }) => {
     const onToggle = (todoListId, todoId) => {
         setTodoLists((prevTodoLists) =>
             prevTodoLists.map((todoList) =>
-                todoList.id === todoListId
+                todoList.workId === todoListId
                     ? {
                         ...todoList,
                         todos: todoList.todos.map((todo) =>
-                            todo.id === todoId ? { ...todo, checked: !todo.checked } : todo
+                            todo.todoId === todoId ? { ...todo, checked: !todo.checked } : todo
                         ),
                     }
                     : todoList
@@ -56,14 +58,14 @@ const TodoList = ({ mainBoard }) => {
     return (
         <div className="todo-list-container">
             {todoLists.map((todoList) => (
-                <div key={todoList.id} className="todo-list-item">
+                <div key={todoList.workId} className="todo-list-item">
                     <WorkTemplate>
                         <WorkList
                             todos={todoList.todos}
-                            onRemove={(todoId) => onRemove(todoList.id, todoId)}
-                            onToggle={(todoId) => onToggle(todoList.id, todoId)}
+                            onRemove={(todoId) => onRemove(todoList.workId, todoId)}
+                            onToggle={(todoId) => onToggle(todoList.workId, todoId)}
                         />
-                        <WorkInsert onInsert={(text) => onInsert(text, todoList.id)} />
+                        <WorkInsert onInsert={(text) => onInsert(text, todoList.workId)} />
                     </WorkTemplate>
                 </div>
             ))}
@@ -72,4 +74,4 @@ const TodoList = ({ mainBoard }) => {
     );
 };
 
-export default TodoList;
+export default Board;

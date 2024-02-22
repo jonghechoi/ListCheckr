@@ -7,12 +7,15 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
     const [selectedTab, setSelectedTab] = useState("Login");
     const [contentsComponents, setContentsComponents] = useState([]);
+    const [selectedBoardId, setSelectedBoardId] = useState(null);
 
     const contextValue = {
         selectedTab,
         setSelectedTab,
         contentsComponents,
         setContentsComponents,
+        selectedBoardId,
+        setSelectedBoardId,
     };
 
     return (
