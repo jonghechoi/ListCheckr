@@ -1,16 +1,20 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useAppContext } from "../../../Context/AppContext";
 
 import '../../../css/App.css';
 
-import TodoList from "../Contents/TodoList/TodoList";
+import Board from "./TodoList/Board";
 import Today from "./Today";
 import Login from "../../Login/Login";
 import Join from "../../Join/Join";
+import {tab} from "@testing-library/user-event/dist/tab";
 
 const Contents = () => {
-    const { selectedTab, contentsComponents } = useAppContext();
-
+    const { selectedBoardId, contentsComponents } = useAppContext();
+    useEffect(() => {
+        console.log("Selected Board ID in Contents:", selectedBoardId);
+        console.log("contentsComponents:", contentsComponents);
+    }, [selectedBoardId, contentsComponents]);
     const components = {
         Login: <Login />,
         Join: <Join />,
@@ -20,15 +24,18 @@ const Contents = () => {
             return acc;
         }, {})
     };
+
     return (
         <div className="Contents">
             {/*{ selectedTab === "Login" && <Login /> }*/}
             {/*{ selectedTab === "Join" && <Join /> }*/}
-            {/*{ selectedTab === "TodoList" && <TodoList /> }*/}
+            {/*{ selectedTab === "Board" && <Board /> }*/}
             {/*{ selectedTab === "Today" && <Today /> }*/}
-            {components[selectedTab]}
+            {components[selectedBoardId]}
         </div>
     );
+
+
 }
 
 export default Contents;

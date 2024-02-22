@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../Context/AppContext";
 import '../../css/App.css';
-import TodoList from "./Contents/TodoList/TodoList";
+import Board from "./Contents/TodoList/Board";
 import ChatModal from "../Modal/ChatModal";
 import axios from "axios";
 
@@ -11,39 +11,40 @@ const Tabs = () => {
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
     const [isChatModalOpen, setChatModalOpen] = useState({});
-    const { selectedTab, setSelectedTab, setContentsComponents } = useAppContext();
+    const { setContentsComponents, contentsComponents, selectedBoardId, setSelectedBoardId } = useAppContext();
+
 
     const onBlur = () => {
         if (!placeholder) setPlaceholder("Search");
     };
 
-    const handleTabClick = (mainBoard) => {
-        setSelectedTab(mainBoard);
+    const handleTabClick = (_id) => {
+        const isTabAlreadyExists = contentsComponents.some(component => component.tab === _id);
+
+        // setChatModalOpen({}); // 채팅 모달 초기화
+        if (!isTabAlreadyExists) {
+            setContentsComponents(prevComponents => [
+                ...prevComponents,
+                { tab: _id, component: () => <Board boardId={_id} /> },
+            ]);
+        }
+        setSelectedBoardId(_id);
     };
 
-    useEffect(() => {
-        setChatModalOpen({});
-    }, [selectedTab]);
-
     const fetchBoards = async () => {
-        const newBoard = { mainBoard: newBoardName };
-        setBoardPairs((prevPairs) => [
-            ...prevPairs,
-            // { mainBoard: newBoardName }
-            newBoard
-        ]);
-        setContentsComponents((prevComponents) => [
-            ...prevComponents,
-            { tab: newBoardName, component: () => <TodoList mainBoard={newBoardName} /> }
-        ]);
-        setSelectedTab(newBoardName);
-        setChatModalOpen((prev) => ({ ...prev, [newBoardName]: false }));
-        setNewBoardName("");
-
         try {
-            // API 요청 막기 위한 주석
-            // const response = await axios.get('/api/boards');
-            // setBoardPairs(response.data.map(board => ({ mainBoard: board.mainBoard })));
+            const response = await axios.get('/api/boards');
+
+            const boardInfoArray = response.data.map(board => ({
+                _id: board._id,
+                mainBoard: board.mainBoard
+            }));
+
+            setBoardPairs(boardInfoArray);
+
+            // if (boardInfoArray.length > 0) {
+            //     setSelectedBoardId(boardInfoArray[boardInfoArray.length - 1]._id);
+            // }
         } catch (error) {
             console.error('보드 목록 가져오기 중 에러 발생:', error);
         }
@@ -53,60 +54,53 @@ const Tabs = () => {
         if (newBoardName.trim() !== "") {
             try {
                 // API 요청 막기 위한 주석
-                // await axios.post('/api/boards', { mainBoard: newBoardName });
+                await axios.post('/api/boards', { mainBoard: newBoardName });
                 await fetchBoards();
-
-                setSelectedTab(newBoardName);
-                setNewBoardName("");
             } catch (error){
-                console.error('새로운 보드 추가 중 에러 발생:', error);
+                if (error.response && error.response.status === 400 && error.response.data.error === 'existingBoard'){
+                    alert('이미 존재하는 보드 이름입니다. 다른 이름을 입력하세요.');
+                } else {
+                    console.error('새로운 보드 추가 중 에러 발생:', error);
+                }
             }
-
         }
     };
 
-    const handleChatClick = (mainBoard) => {
+    const handleChatClick = (_id) => {
         // setChatModalOpen(true);
-        setChatModalOpen((prev) => ({ ...prev, [mainBoard]: true }));
+        setChatModalOpen((prev) => ({ ...prev, [_id]: true }));
     }
 
-    // useEffect(() => {
-    //     fetchBoards();
-    // }, []);
-
-    useEffect(()=>{
-        setContentsComponents((prevComponents) => [
-            ...prevComponents,
-            ...boardPairs.map(board => ({ tab: board.mainBoard, component: () => <TodoList mainBoard={board.mainBoard} /> })),
-        ]);
-    },[boardPairs,setContentsComponents]);
+    useEffect(() => {
+        fetchBoards();
+    }, []);
 
     return (
         <div className="Tabs">
             <div>
                 <ul className="nav">
-                    {boardPairs.map(({ mainBoard }, index) => (
+                    {boardPairs.map(({ _id, mainBoard }, index) => (
                         <li
                             key={index}
-                            onClick={() => handleTabClick(mainBoard)}
-                            className={selectedTab === mainBoard ? "active" : ""}
+                            onClick={() => handleTabClick(_id)}
+                            className={selectedBoardId === _id ? "active" : ""}
                         >
                             {mainBoard}
-                            {selectedTab === mainBoard && (
+                            {selectedBoardId === _id && (
                                 <button
-                                    className={`btn_chat ${ selectedTab === mainBoard ? "active" : "" }`}
-                                    onClick={() => handleChatClick(mainBoard)}
+                                    className={`btn_chat ${ selectedBoardId === _id ? "active" : "" }`}
+                                    onClick={() => handleChatClick(_id)}
                                 >
                                     Chat!
                                 </button>
                             )}
-                            {isChatModalOpen[mainBoard] && (
+                            {isChatModalOpen[_id] && (
                                 <ChatModal
                                     chatModalName={mainBoard}
                                     onClose={() =>
                                         setChatModalOpen((prev) => ({
                                             ...prev,
-                                            [mainBoard]: false,
+                                            [_id]: false,
                                         }))
                                     }
                                 />

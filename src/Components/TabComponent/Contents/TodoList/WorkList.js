@@ -5,8 +5,8 @@ const WorkList = ({ todos, onRemove, onToggle }) => {
         <div className="WorkList">
             {todos.map((todo) => (
                 <WorkListItem
+                    key={todo.todoId}
                     todo={todo}
-                    key={todo.id}
                     onRemove={onRemove}
                     onToggle={onToggle}
                 />
