@@ -50,19 +50,19 @@
 /*  background: #39A2DB;*/
 /*}*/
 /* 종희 */
-ul.nav li {
+ul.nav > li {
   padding: 1rem;
   list-style: none;
   cursor: pointer;
   transition: all 0.7s;
 }
-ul.nav li:hover {
+ul.nav > li:hover {
   background: rgba(50, 224, 196, 0.15);
 }
-ul.nav li.active {
+ul.nav > li.active {
   background: cadetblue;
 }
-ul.nav li button.btn_chat {
+ul.nav > li button.btn_chat {
   float: right;
 }
 .btn_chat {

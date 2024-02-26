@@ -2,7 +2,7 @@
     position: absolute;
     bottom: 0;
     height: 50%;
-    width: 200%;
+    width: 600%;
     background: rgba(0, 0, 0, 0.5); /* 배경에 어둡게 처리 */
     justify-content: center;
     align-items: center;
@@ -18,15 +18,27 @@
 .modal-overlay > .modal-container > .modal-content {
     height: 80%;
     background-color: cadetblue;
-    display: flex;
+    overflow-y: auto;
+}
+.modal-overlay > .modal-container > .modal-content > p {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+}
+
+/* Chatting */
+.modal-overlay > .modal-container > .modal-content > p.right-align {
+    text-align: right;
+}
+
+.modal-overlay > .modal-container > .modal-content > p.left-align {
+    text-align: left;
 }
 .modal-overlay > .modal-container > .modal-content > button {
     height: 20%;
 }
-
-/* Chatting */
-.modal-overlay > .modal-container > .modal-content > input {
-    width: 50%;
-    margin-top: auto;
+.modal-overlay > .modal-container > input {
+    width: 100%;
+    bottom: 0;
     margin-left: auto;
 }

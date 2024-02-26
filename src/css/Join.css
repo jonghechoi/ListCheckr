@@ -41,10 +41,10 @@ form > div > input,
     border-radius: 0 0 10px 10px;
 }
 
-p {
-    color: red;
-    border: 1px solid lightgray;
-}
+/*p {*/
+/*    color: red;*/
+/*    border: 1px solid lightgray;*/
+/*}*/
 
 #gender {
     display: flex;
