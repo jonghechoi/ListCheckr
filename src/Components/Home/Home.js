@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Tabs from "../TabComponent/Tabs";
 import Header from "../Header/Header";
 import Contents from "../TabComponent/Contents/Contents";

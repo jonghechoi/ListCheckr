@@ -12,9 +12,6 @@ const Contents = () => {
     const { selectedTab, contentsComponents } = useAppContext();
 
     const components = {
-        Login: <Login />,
-        Join: <Join />,
-
         ...contentsComponents.reduce((acc, { tab, component }) => {
             acc[tab] = React.createElement(component);;
             return acc;
@@ -22,10 +19,6 @@ const Contents = () => {
     };
     return (
         <div className="Contents">
-            {/*{ selectedTab === "Login" && <Login /> }*/}
-            {/*{ selectedTab === "Join" && <Join /> }*/}
-            {/*{ selectedTab === "TodoList" && <TodoList /> }*/}
-            {/*{ selectedTab === "Today" && <Today /> }*/}
             {components[selectedTab]}
         </div>
     );
