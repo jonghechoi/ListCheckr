@@ -130,28 +130,3 @@ ul.nav > li button.btn_chat {
   color: white;
   width: 100%;
 }
-
-/* Todo Modal Container */
-.todo-modal {
-  width: 40%;
-  margin-left: 2%;
-}
-.modal-container input {
-  width: 90%;
-  padding: 10px 0 10px 10px;
-}
-.modal-container textarea {
-  width: 90%;
-  height: 20%;
-}
-.modal-container {
-  position: relative;
-  height: 100%;
-}
-.btn-modal {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  display: flex;
-  gap: 10px;
-}

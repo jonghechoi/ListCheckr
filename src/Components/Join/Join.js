@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import { useAppContext } from "../../Context/AppContext";
 
 import '../../css/Join.css';
-import {useAppContext} from "../../Context/AppContext";
 
 const Join = () => {
     const navigate = useNavigate();
+    const { apiInstance } = useAppContext();
 
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
@@ -96,7 +96,8 @@ const Join = () => {
 
         // API request
         try {
-            const response = await axios.post('http://localhost:8081/api/user/join', {
+            // const response = await axios.post('http://localhost:8080/api/user/join', {
+            const response = await apiInstance.post('/api/user/join', {
                 uid: id,
                 password: password,
                 email: email,

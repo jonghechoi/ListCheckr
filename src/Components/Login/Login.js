@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import { useAppContext } from "../../Context/AppContext";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 import Join from "../Join/Join";
+
+import '../../css/Login.css'
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
@@ -20,7 +22,7 @@ const Login = ({ onLogin }) => {
          *  로그인 기능 개발 시에는 주석 풀고 진행
          */
         // try {
-        //     const response = await axios.post('http://localhost:8081/user/login', {
+        //     const response = await axios.post('http://localhost:8080/user/login', {
         //         id: id,
         //         password: password
         //     });

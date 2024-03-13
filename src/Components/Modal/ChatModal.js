@@ -13,6 +13,7 @@ const ChatModal = ({ chatModalName, onClose }) => {
     const webSocketUrl = "http://localhost:8083/chat/pub";
     const apiInstance = axios.create({ baseURL: "http://localhost:8083/api/chat/" });
     const [boardName, setBoardName] = useState('');
+    const scrollRef = useRef();
 
     useEffect(() => {
         if (chatModalName) {
@@ -33,20 +34,16 @@ const ChatModal = ({ chatModalName, onClose }) => {
         });
 
         fetchChatHistory();
-
         setStompClient(stomp);
-
-        return () => {
-            let disconnectHeaders = {
-                boardId: chatModalName,
-            };
-            stomp.disconnect(0, disconnectHeaders);
-        };
     }, [chatModalName]);
 
     const fetchChatHistory = async () => {
         try {
             const response = await apiInstance.get(chatModalName);
+            if(response.data == '') {
+                return;
+            }
+
             let newItems = response.data.messageContentList.map((content) => (
                 {
                     sender: content.sender,
@@ -66,14 +63,14 @@ const ChatModal = ({ chatModalName, onClose }) => {
             if (socketConnected) {
                 stompClient.send(`/chat/pub/topic/${chatModalName}`, { boardId : chatModalName },
                     JSON.stringify({
-                            boardId: chatModalName,
-                            messageContent: {
-                                // 추후 로그인 ID로 변경 필수
-                                sender: "b",
-                                content: message,
-                                sendTime: Date.now()
-                            },
-                            type: "TALK"
+                        boardId: chatModalName,
+                        messageContent: {
+                            // 추후 로그인 ID로 변경 필수
+                            sender: "b",
+                            content: message,
+                            sendTime: Date.now()
+                        },
+                        type: "TALK"
                     })
                 );
                 setMessage('');
@@ -91,27 +88,48 @@ const ChatModal = ({ chatModalName, onClose }) => {
         }
     }, [sendMsg]);
 
+    useEffect(() => {
+        scrollToBottom();
+    }, [items]);
+
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    };
+
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-                <div className="modal-content">
+        <div className="modal-overlay">
+            {/*<div className="modal-container" onClick={(e) => e.stopPropagation()}>*/}
+            <div className="modal-container">
+                <div className="modal-content" ref={scrollRef}>
                     {items.map((item, index) => (
-                        <p
-                            key={index}
-                            className={item.sender === 'b' ? 'right-align' : 'left-align'}
-                        >
-                            Sender: {item.sender} Content: {item.content}
-                        </p>
+                        <div className="wrap">
+                            <div className="chat me">
+                                <div className="icon"><i className="fa-solid fa-user"></i></div>
+                                <div className="textbox">{item.content}</div>
+                            </div>
+                            {/*<div className="chat other">*/}
+                            {/*    <div className="icon"><i className="fa-solid fa-user"></i></div>*/}
+                            {/*    <div className="textbox">아유~ 너무요너무요! 요즘 어떻게 지내세요?</div>*/}
+                            {/*</div>*/}
+                        </div>
                     ))}
                 </div>
-                <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={boardName}
-                />
-                <button onClick={onClose}>Close</button>
+                <div className="input-container">
+                    <button onClick={() => {
+                        if (stompClient) {
+                            stompClient.disconnect(0, {boardId: chatModalName});
+                        }
+                        onClose();
+                    }}>Close</button>
+                    <input
+                        type="text"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
+                </div>
             </div>
         </div>
     );

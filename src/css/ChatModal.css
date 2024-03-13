@@ -1,44 +1,112 @@
+/* Chat Modal */
 .modal-overlay {
     position: absolute;
     bottom: 0;
+    left: 0;
     height: 50%;
-    width: 600%;
-    background: rgba(0, 0, 0, 0.5); /* 배경에 어둡게 처리 */
+    width: 200%;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* 다른 컴포넌트 위에 올라가도록 설정 (값은 상황에 따라 조절) */
 }
 .modal-overlay > .modal-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1001; /* 모달이 다른 컴포넌트 위에 위치하도록 설정 (값은 상황에 따라 조절) */
 }
 .modal-overlay > .modal-container > .modal-content {
-    height: 80%;
-    background-color: cadetblue;
     overflow-y: auto;
+    height: 93%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #A8C0D6;
 }
-.modal-overlay > .modal-container > .modal-content > p {
+.modal-overlay > .modal-container > .input-container {
+    display: flex;
+}
+.modal-overlay > .modal-container > .input-container > input {
     width: 100%;
+    padding: 5px 0 5px 5px;
+    border: none;
+    outline: none;
+}
+.modal-overlay > .modal-container > .input-container > button {
+    flex: 1;
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: auto;
+}
+
+/* Chat */
+* {
+    padding: 0;
     margin: 0;
-    padding: 10px;
+    box-sizing: border-box;
+    color: black;
 }
-
-/* Chatting */
-.modal-overlay > .modal-container > .modal-content > p.right-align {
-    text-align: right;
+a {
+    text-decoration: none;
 }
-
-.modal-overlay > .modal-container > .modal-content > p.left-align {
-    text-align: left;
+.wrap {
+    background-color: #A8C0D6;
 }
-.modal-overlay > .modal-container > .modal-content > button {
-    height: 20%;
+.wrap .chat {
+    display: flex;
+    align-items: flex-start;
+    padding: 5px;
 }
-.modal-overlay > .modal-container > input {
-    width: 100%;
-    bottom: 0;
-    margin-left: auto;
+.wrap .chat .icon {
+    position: relative;
+    overflow: hidden;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #eee;
+}
+.wrap .chat .icon i {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    font-size: 1.25rem;
+    color: #aaa;
+    transform: translateX(-50%);
+}
+.wrap .chat .textbox {
+    position: relative;
+    display: inline-block;
+    max-width: calc(100% - 35px);
+    padding: 7px;
+    font-size: 10px;
+    border-radius: 10px;
+}
+.wrap .chat .textbox::before {
+    position: absolute;
+    display: block;
+    top: 0;
+    font-size: 0.75rem;
+}
+.wrap .other .textbox {
+    margin-left: 20px;
+    background-color: #ddd;
+}
+.wrap .other .textbox::before {
+    left: -15px;
+    content: "◀";
+    color: #ddd;
+}
+.wrap .me {
+    flex-direction: row-reverse;
+}
+.wrap .me .textbox {
+    margin-right: 20px;
+    background-color: #F9EB54;
+}
+.wrap .me .textbox::before {
+    right: -9px;
+    content: "▶";
+    color: #F9EB54;
+    margin-top: 5px;
 }
