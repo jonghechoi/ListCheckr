@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from "../../Context/AppContext";
 
 import '../../css/Join.css';
-import {useAppContext} from "../../Context/AppContext";
 
 const Join = () => {
-    const { setSelectedTab } = useAppContext();
+    const navigate = useNavigate();
+    const { apiInstance } = useAppContext();
 
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
@@ -72,38 +73,53 @@ const Join = () => {
     const handleJoin = async () => {
         // validation check
         const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
-        if(id === '') setError((prevState) => ({ ...error, id: true }));
-        if(password === '') setError((prevState) => ({ ...error, password: true }));
-        if(name === '') setError((prevState) => ({ ...error, name: true }));
-        if(birth === '' || birth.length !== 8) setError((prevState) => ({ ...error, birth: true }));
-        if(phone === '' || !phoneRegex.test(phone)) setError((prevState) => ({ ...error, phone: true }));
+        if(id === '') {
+            setError((prevState) => ({ ...error, id: true }));
+            return
+        }
+        if(password === '') {
+            setError((prevState) => ({ ...error, password: true }));
+            return
+        }
+        if(name === '') {
+            setError((prevState) => ({ ...error, name: true }));
+            return
+        }
+        if(birth === '' || birth.length !== 8) {
+            setError((prevState) => ({ ...error, birth: true }));
+            return
+        }
+        if(phone === '' || !phoneRegex.test(phone)) {
+            setError((prevState) => ({ ...error, phone: true }));
+            return
+        }
 
         // API request
         try {
-            const response = await axios.post('http://localhost:8081/user/join', {
-                id: id,
+            // const response = await axios.post('http://localhost:8080/api/user/join', {
+            const response = await apiInstance.post('/api/user/join', {
+                uid: id,
                 password: password,
                 email: email,
                 name: name,
                 birth: birth.toString(),
                 gender: gender,
                 country: selectedCountry,
-                phone: phone
+                phone: phone,
+                group: "group_a",
+                role: "USER"
             });
-            // 회원가입 정상 처리시 로그인 페이지 이동
             alert("회원가입 성공");
-            setSelectedTab("Login");
+            navigate('/');
         }
         catch (error) {
-            console.error(error.response.status);
-            console.error(error.response.data[0].message);
+            console.error(error);
         }
     }
 
     return (
-        <div>
+        <div className="join">
             <form method="post" id="form">
-                {/*<%--<input type="hidden" name="command" value="join">--%>*/}
                 <div className="group">
                     <input
                         type="text"
@@ -189,7 +205,7 @@ const Join = () => {
                     </div>
 
                     <div id="country">
-                        <select name="country" defaultValue={"kr"} value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
+                        <select name="country" value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
                             <option value="id">Index</option>
                             <option value="kr">Korea +82</option>
                             <option value="jp">Japan +81</option>
@@ -215,7 +231,7 @@ const Join = () => {
                     </ul>
                 </div>
 
-                <input type="button" id="btn_join" value="join" onClick={ handleJoin } />  {/*submit가 발생 전에 js로 이동한 후 유효성 검사를 먼저 통과해야 함*/}
+                <input type="button" id="btn_join" value="join" onClick={ handleJoin } />  {/*submit이 발생 전에 js로 이동한 후 유효성 검사를 먼저 통과해야 함*/}
                 {/*<button>가입</button> form 안에 있는 일반 버튼 태그는 default로 submit 응답을 하게 됨/ 이게 input태그 안에 button 타입이 존재하는 이유임(중간에 이벤트를 주기 위해)*/}
             </form>
         </div>

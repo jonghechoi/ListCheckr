@@ -1,24 +1,22 @@
-// AppContext.js
-
 import React, { createContext, useContext, useState } from "react";
+import axios from 'axios';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-    const [selectedTab, setSelectedTab] = useState("Login");
+    const [selectedTab, setSelectedTab] = useState("");
     const [contentsComponents, setContentsComponents] = useState([]);
     const [selectedBoardId, setSelectedBoardId] = useState(null);
-
-
+    const apiInstance = axios.create({ baseURL: "http://localhost:8083" });
 
     const contextValue = {
         selectedTab,
         setSelectedTab,
-        contentsComponents,
-        setContentsComponents,
         selectedBoardId,
         setSelectedBoardId,
-
+        contentsComponents,
+        setContentsComponents,
+        apiInstance,
     };
 
     return (
