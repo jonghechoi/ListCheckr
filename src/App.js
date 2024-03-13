@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { AppProvider } from "./Context/AppContext";
+import { BoardProvider } from "./Context/BoardContext";
 import './css/App.css';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Login from "./Components/Login/Login";
@@ -15,12 +16,14 @@ function App() {
     return (
       <BrowserRouter>
           <AppProvider>
-              <div className="App">
-                  <Routes>
-                      <Route path="/" element={ <Login onLogin={handleLogin} /> } />
-                      <Route path="/home" element={ <Home loggedInUserId={loggedInUserId} /> } />
-                  </Routes>
-              </div>
+              <BoardProvider>
+                  <div className="App">
+                      <Routes>
+                          <Route path="/" element={ <Login onLogin={handleLogin} /> } />
+                          <Route path="/home" element={ <Home loggedInUserId={loggedInUserId} /> } />
+                      </Routes>
+                  </div>
+              </BoardProvider>
           </AppProvider>
       </BrowserRouter>
     );

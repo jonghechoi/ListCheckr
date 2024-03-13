@@ -1,33 +1,68 @@
 import { MdAdd } from 'react-icons/md';
-import { useCallback, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import '../../../../css/WorkInsert.css'
-const WorkInsert = ({ onInsert }) => {
-    const [value, setValue] = useState('');
+const WorkInsert = ({ onInsert, todoListId, boardId }) => {
+    const [subject, setSubject] = useState('');
+    const [detail, setDetail] = useState('');
+    const [isAddingList, setIsAddingList] = useState(false);
+    const wrapperRef = useRef(null);
 
-    const onChange = useCallback((e) => {
-        setValue(e.target.value);
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+                setIsAddingList(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+
+    const onChangeSubject = useCallback((e) => {
+        setSubject(e.target.value);
+
+    }, []);
+
+    const onChangeDetail = useCallback((e) => {
+        setDetail(e.target.value);
     }, []);
 
     const onSubmit = useCallback(
         (e) => {
-            onInsert(value);
-            setValue('');
+            onInsert(subject, detail, todoListId, boardId);
+            setSubject('');
+            setDetail('');
             e.preventDefault();
+            setIsAddingList(false);
         },
-        [onInsert, value],
+        [onInsert, subject, detail, todoListId, boardId],
     );
-
+    const handleAddListClick = () => {
+        setIsAddingList(true);
+    };
     return (
-        <form className="WorkInsert" onSubmit={onSubmit}>
-            <input
-                placeholder="할 일을 입력하세요"
-                value={value}
-                onChange={onChange}
-            />
-            <button type="submit">
-                <MdAdd />
-            </button>
-        </form>
+        <div className="WorkInsert" >
+            <div className = "wrapper" ref={wrapperRef}>
+                {isAddingList ? (
+                    <>
+                        <input
+                            placeholder="+Add List"
+                            value={subject}
+                            onChange={onChangeSubject}
+                        />
+                        <button className="submit" onClick={onSubmit}>
+                            <MdAdd />
+                        </button>
+                    </>
+                ) : (
+                <button className="add-List-button" onClick={handleAddListClick}>+ Add Work</button>
+                )}
+            </div>
+        </div>
     );
 };
 

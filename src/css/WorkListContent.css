@@ -1,0 +1,98 @@
+.WorkListContent {
+    padding: 1rem;
+    display: flex;
+    /*align-items: center;*/
+    position: relative;
+    height: auto;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+.WorkListContent:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.WorkListContent .checkbox {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    margin-right: 8px;
+}
+
+.WorkListContent .checkbox .svg {
+    font-size: 1.5rem;
+}
+
+.WorkListContent .checkbox .text {
+    display: flex;
+    margin-left: 0.5rem;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 100%;
+    transition: max-height 0.3s ease, text-decoration 0.3s ease;
+}
+
+.WorkListContent.checked .text {
+    text-decoration: line-through;
+}
+
+.WorkListContent .checkbox.checked .svg {
+    color: #22b8cf;
+}
+
+.WorkListContent .remove {
+    display: flex;
+    align-items: flex-start;
+
+    font-size: 1.5rem;
+    color: #ff6b6d;
+    cursor: pointer;
+}
+
+.WorkListContent .remove:hover {
+    color: #ff8787;
+}
+
+.WorkListContent + .WorkListContent {
+    border-top: 1px solid #dee2e6;
+}
+
+.WorkListContent .separator {
+    border-top: 1px solid #dee2e6;
+    margin: 8px 0;
+}
+
+.WorkListContent .text .subject {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.WorkListContent .text .detail {
+    white-space: pre-line;
+}
+
+.WorkListContent .text {
+    display: flex;
+    margin-left: 0.5rem;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 100%;
+    transition: max-height 0.3s ease;
+}
+
+.WorkListContent .text input,
+.WorkListContent .text textarea {
+    height: auto;
+    resize: vertical;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif;
+    transition: height 0.3s ease;
+
+}

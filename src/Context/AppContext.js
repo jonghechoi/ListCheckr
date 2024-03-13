@@ -9,6 +9,8 @@ export const AppProvider = ({ children }) => {
     const [contentsComponents, setContentsComponents] = useState([]);
     const [selectedBoardId, setSelectedBoardId] = useState(null);
 
+
+
     const contextValue = {
         selectedTab,
         setSelectedTab,
@@ -16,6 +18,7 @@ export const AppProvider = ({ children }) => {
         setContentsComponents,
         selectedBoardId,
         setSelectedBoardId,
+
     };
 
     return (

@@ -1,0 +1,140 @@
+
+.Tabs {
+    position: relative;
+    grid-area: tab;
+    width: 100%;
+    height: 100%;
+    background: white;
+    padding-top: 4rem;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.Tabs .webapp {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #666;
+    line-height: 1.8;
+}
+.Tabs input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+ul.nav li {
+    padding: 1rem;
+    list-style: none;
+    cursor: pointer;
+    transition: all 0.7s;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 30px;
+}
+ul.nav li .button-group {
+    position: absolute;
+    transform: translateY(80%);
+    right: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+ul.nav li .button-group button {
+    margin-bottom: 0.2rem;
+    background: #007bff;
+    width: 65px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+    transition: background 0.3s;
+}
+ul.nav li:hover {
+    background: #f0f0f0;
+}
+
+ul.nav li.active {
+    background: #ddd;
+}
+
+ul.nav li button.btn_chat {
+    float: right;
+}
+
+.btn_chat {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn_chat:hover {
+    background-color: #444;
+}
+.add-board-button {
+    padding: 8px;
+    font-size: 16px;
+    margin-right: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+.Tabs .nav li .BoardInsert {
+    display: flex;
+    align-items: center;
+}
+
+.Tabs .nav li .BoardInsert input {
+    flex: 1;
+    height: 2rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-right: 7px;
+}
+
+.Tabs .nav li .BoardInsert button {
+    flex: 0.1;
+    background: #007bff;
+    height: 2rem;
+    padding: 0.5rem;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-top: -15px;
+
+}
+.BoardInsert {
+    flex-direction: column;
+}
+.BoardInsert .form-content {
+    display: flex;
+    align-items: center;
+
+}
+.BoardInsert .close {
+    display: block;
+    margin-left: 180px;
+    font-size: 10px;
+    padding: 4px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
