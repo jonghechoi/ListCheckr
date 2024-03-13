@@ -1,75 +1,69 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
+import { useAppContext } from "../../../../Context/AppContext"
 import WorkTemplate from "./WorkTemplate";
 import WorkInsert from "./WorkInsert";
 import WorkList from "./WorkList";
-import '../../../../css/TodoList.css'
+import '../../../../css/Board.css'
+import axios from "axios";
 
-const Board = ({ boardId }) => {
-    const [todoLists, setTodoLists] = useState([]);
+const Board = () => {
+    const { selectedBoardId } = useAppContext();
+    const [todoLists, setTodoLists] = useState( []);
+
+
+    const fetchTodoLists = useCallback(async () => {
+        try {
+            const response = await axios.get(`/api/boards/${selectedBoardId}/todolist`);
+            const todoListsWithTitle = await Promise.all(response.data.map(async (todoList) => {
+            const titleResponse = await axios.get(`/api/boards/${selectedBoardId}/todolist/${todoList._id}/title`);
+
+
+            return {
+                _id: todoList._id,
+                title: titleResponse.data.title,
+                works: todoList.works || [],
+            };
+            }));
+            setTodoLists(todoListsWithTitle);
+        } catch (error) {
+            console.error('할 일 목록 조회 중 에러 발생:', error);
+
+        }
+    }, [selectedBoardId]);
+    const onListDelete = () => {
+        fetchTodoLists();
+    };
+
     useEffect(() => {
-        console.log("Selected Board ID in Board:", boardId);
-    }, [boardId]);
-    const addTodoList = () => {
-        const newTodoList = {
-            workId: todoLists.length + 1,
-            title: 'AddWork',
-            todos: [
-                { todoId: 1, text: '새로운 할 일', checked: false },
-            ],
-        };
-        setTodoLists((prevTodoLists) => [...prevTodoLists, newTodoList]);
-    };
+        fetchTodoLists();
+    }, [fetchTodoLists, selectedBoardId]);
 
-    const onInsert = (text, todoListId) => {
-        setTodoLists((prevTodoLists) =>
-            prevTodoLists.map((todoList) =>
-                todoList.workId === todoListId
-                    ? { ...todoList, todos: [...todoList.todos, { todoId: todoList.todos.length + 1, text, checked: false }] }
-                    : todoList
-            )
-        );
-    };
+    const addTodoList = async () => {
+        try {
+            const response = await axios.post(`/api/boards/${selectedBoardId}/todolist`, { title : `LIST${todoLists.length +1}`});
+            const newTodoList = response.data;
 
-    const onRemove = (todoListId, todoId) => {
-        setTodoLists((prevTodoLists) =>
-            prevTodoLists.map((todoList) =>
-                todoList.workId === todoListId
-                    ? { ...todoList, todos: todoList.todos.filter((todo) => todo.todoId !== todoId) }
-                    : todoList
-            )
-        );
-    };
-
-    const onToggle = (todoListId, todoId) => {
-        setTodoLists((prevTodoLists) =>
-            prevTodoLists.map((todoList) =>
-                todoList.workId === todoListId
-                    ? {
-                        ...todoList,
-                        todos: todoList.todos.map((todo) =>
-                            todo.todoId === todoId ? { ...todo, checked: !todo.checked } : todo
-                        ),
-                    }
-                    : todoList
-            )
-        );
+            setTodoLists((prevTodoLists) => [...prevTodoLists, newTodoList]);
+            fetchTodoLists();
+        } catch (error) {
+            console.error('할 일 목록 추가 중 에러 발생:', error);
+        }
     };
 
     return (
         <div className="todo-list-container">
-            {todoLists.map((todoList) => (
-                <div key={todoList.workId} className="todo-list-item">
-                    <WorkTemplate>
+            {todoLists && todoLists.map((todoList) => (
+                <div key={todoList._id} className="todo-list-item">
+                    <WorkTemplate todoListId={todoList._id} onListDelete={onListDelete}>
                         <WorkList
-                            todos={todoList.todos}
-                            onRemove={(todoId) => onRemove(todoList.workId, todoId)}
-                            onToggle={(todoId) => onToggle(todoList.workId, todoId)}
+                            works={Array.isArray(todoList.works) ? todoList.works : []}
+                            todoListId={todoList._id}
                         />
-                        <WorkInsert onInsert={(text) => onInsert(text, todoList.workId)} />
                     </WorkTemplate>
                 </div>
             ))}
-            <button className="add-work-button" onClick={addTodoList}>+AddWork</button>
+            <button className="add-work-button" onClick={addTodoList}>+Add List</button>
+
         </div>
     );
 };

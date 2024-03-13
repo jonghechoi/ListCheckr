@@ -1,103 +1,34 @@
-/* Remove browser defaults */
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-/* Style Home.js wrapper */
- .Home {
-   display: grid;
-   grid-template-columns: 1.5fr 8.5fr;
-   grid-template-rows: 1fr 9fr;
-   grid-template-areas:
-           "tab header"
-           "tab contents";
-   width: 100vw;
-   height: 100vh;
-   overflow: hidden;
- }
-
-/* Tab Container */
-.Tabs {
-  position: relative;
-  grid-area: tab;
-  width: 100%;
-  height: 100%;
-  background: #053742;
-  padding-top: 4rem;
-  color: #E8F0F2;
-  /*@media (max-width: 769px) {*/
-  /*  padding: 2rem 0;*/
-  /*}*/
-}
-.Tabs input {
-  width: 100%;
+.Home {
+  display: grid;
+  grid-template-columns: 1.5fr 8.5fr;
+  grid-template-rows: 1fr 9fr;
+  grid-template-areas:
+    "tab header"
+    "tab contents";
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* Tab Navigation */
-/* 기존 */
-/*ul.nav li {*/
-/*  padding: 1rem;*/
-/*  list-style: none;*/
-/*  cursor: pointer;*/
-/*  transition: all 0.7s;*/
-/*}*/
-/*ul.nav li:hover {*/
-/*  background: rgba(50, 224, 196, 0.15);*/
-/*}*/
-/*ul.nav li.active {*/
-/*  background: #39A2DB;*/
-/*}*/
-/* 종희 */
-ul.nav li {
-  padding: 1rem;
-  list-style: none;
-  cursor: pointer;
-  transition: all 0.7s;
-}
-ul.nav li:hover {
-  background: rgba(50, 224, 196, 0.15);
-}
-ul.nav li.active {
-  background: cadetblue;
-}
-ul.nav li button.btn_chat {
-  float: right;
-}
-.btn_chat {
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-.btn_chat:hover {
-  background-color: #2980b9;
-}
-
-/* Header Container */
-/* 기존 */
-/*.Header {*/
-/*  grid-area: header;*/
-/*  border-bottom: 2px solid darkslategray;*/
-/*  height: 100%;*/
-/*}*/
-/* 종희 */
 .header {
   grid-area: header;
   border-bottom: 2px solid darkslategray;
-  height: 100%;
+  height: 50%;
   position: relative;
 }
 .header > p {
-  /*position: relative;*/
   float: right;
-  margin-top: 10%;
+  margin-top: 0%;
   border: none;
 }
 
-/* Todo Container */
 .Contents {
   grid-area: contents;
   display: flex;
