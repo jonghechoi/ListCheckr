@@ -10,8 +10,8 @@ const Contents = () => {
     useEffect(() => {
     }, [selectedBoardId, contentsComponents]);
     const components = {
-        Login: <Login />,
-        Join: <Join />,
+        // Login: <Login />,
+        // Join: <Join />,
 
         ...contentsComponents.reduce((acc, { tab, component }) => {
             acc[tab] = React.createElement(component);;
@@ -21,16 +21,9 @@ const Contents = () => {
 
     return (
         <div className="Contents">
-            {/*{ selectedTab === "Login" && <Login /> }*/}
-            {/*{ selectedTab === "Join" && <Join /> }*/}
-            {/*{ selectedTab === "Board" && <Board /> }*/}
-            {/*{ selectedTab === "Today" && <Today /> }*/}
             {components[selectedBoardId]}
-
         </div>
     );
-
-
 }
 
 export default Contents;

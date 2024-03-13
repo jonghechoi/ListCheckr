@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import { useAppContext } from "../../Context/AppContext";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-import Tabs from "../TabComponent/Tabs"
-import Header from "../Header/Header"
-import Contents from "../TabComponent/Contents/Contents"
-import {Home} from "../Home/Home";
+import Join from "../Join/Join";
+
+import '../../css/Login.css'
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
-    const { setSelectedTab } = useAppContext();
+    const { setSelectedTab, setContentsComponents } = useAppContext();
     const [isLoggedIn, setLoggedIn] = useState(true);
 
     const handleLogin = async () => {
@@ -23,7 +22,7 @@ const Login = ({ onLogin }) => {
          *  로그인 기능 개발 시에는 주석 풀고 진행
          */
         // try {
-        //     const response = await axios.post('http://localhost:8081/user/login', {
+        //     const response = await axios.post('http://localhost:8080/user/login', {
         //         id: id,
         //         password: password
         //     });
@@ -40,7 +39,14 @@ const Login = ({ onLogin }) => {
             navigate('/home');
     }
 
-    const handleJoin = (joinClicked) => { setSelectedTab(joinClicked); }
+    const handleJoin = () => {
+        setSelectedTab("Join");
+        setContentsComponents((prevComponents) => [
+            ...prevComponents,
+            { tab: "Join", component: Join }
+        ]);
+        navigate('/home');
+    }
 
     return (
         <div className="login">
@@ -62,7 +68,7 @@ const Login = ({ onLogin }) => {
             </div>
             <div>
                 <button onClick={handleLogin}>로그인</button>
-                <button onClick={() => handleJoin("Join")}>회원가입</button>
+                <button onClick={handleJoin}>회원가입</button>
             </div>
         </div>
     );
