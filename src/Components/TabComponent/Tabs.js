@@ -12,6 +12,7 @@ const Tabs = () => {
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
     const [isChatModalOpen, setChatModalOpen] = useState({});
+    const [openedChatModalBoardId, setOpenedChatModalBoardId] = useState(null);
     const [isAddingBoard, setIsAddingBoard] = useState(false);
     const contentRef = useRef(null);
 
@@ -34,7 +35,6 @@ const Tabs = () => {
     const handleTabClick =  async (_id) => {
         const isTabAlreadyExists = contentsComponents.some(component => component.tab === _id);
 
-        // setChatModalOpen({}); // 채팅 모달 초기화
         if (!isTabAlreadyExists) {
             try {
                 const todoListResponse = await axios.get(`/api/boards/${_id}/todolist`);
@@ -60,6 +60,13 @@ const Tabs = () => {
             }
         } else {
             setSelectedBoardId(_id);
+        }
+
+        if(openedChatModalBoardId !== _id) {
+            setChatModalOpen((prev) => ({
+                ...prev,
+                [openedChatModalBoardId]: false
+            }));
         }
     };
 
@@ -101,7 +108,7 @@ const Tabs = () => {
     };
 
     const handleChatClick = (_id) => {
-        // setChatModalOpen(true);
+        setOpenedChatModalBoardId(_id);
         setChatModalOpen((prev) => ({ ...prev, [_id]: true }));
     }
 
@@ -132,6 +139,7 @@ const Tabs = () => {
             console.error('보드 삭제 중 에러 발생:', error);
         }
     };
+
     return (
         <div className="Tabs">
             <div className="webapp">ListCheckr</div>
