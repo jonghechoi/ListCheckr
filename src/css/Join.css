@@ -41,8 +41,9 @@ form > div > input,
 #gender > label > div {
     width: 60px;
     border: 1px solid teal;
-    padding: 10px 30px 10px 30px;
-    font-size: 7px;
+    padding: 10px 10px 10px 10px;
+    text-align: center;
+    font-size: 12px;
 }
 #gender > label:first-child > div {
     border-radius: 5px 0 0 5px;
@@ -70,8 +71,6 @@ input[type="button"] {
     border: none;
     width: 30%;
     margin: 0 auto;
-    margin-top: 100px;;
-
     color: whitesmoke;
     border: none;
     border-radius: 10px;

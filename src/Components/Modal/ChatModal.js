@@ -10,8 +10,8 @@ const ChatModal = ({ chatModalName, onClose }) => {
     const [sendMsg, setSendMsg] = useState(false);
     const [items, setItems] = useState([]);
     const [stompClient, setStompClient] = useState(null);
-    const webSocketUrl = "http://localhost:8083/chat/pub";
-    const apiInstance = axios.create({ baseURL: "http://localhost:8083/api/chat/" });
+    const webSocketUrl = "http://localhost:8084/chat/pub";
+    const apiInstance = axios.create({ baseURL: "http://localhost:8084/api/chat/" });
     const [boardName, setBoardName] = useState('');
     const scrollRef = useRef();
 

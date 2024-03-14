@@ -9,7 +9,6 @@ import axios from "axios";
 import { useBoardContext } from "../../Context/BoardContext";
 
 const Tabs = () => {
-
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
     const [isChatModalOpen, setChatModalOpen] = useState({});
@@ -31,6 +30,7 @@ const Tabs = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
     const handleTabClick =  async (_id) => {
         const isTabAlreadyExists = contentsComponents.some(component => component.tab === _id);
 
@@ -151,18 +151,19 @@ const Tabs = () => {
                                     <button onClick={() => handleDeleteBoard(_id)}>
                                         Delete
                                     </button>
-                                    {isChatModalOpen[_id] && (
-                                        <ChatModal
-                                            chatModalName={mainBoard}
-                                            onClose={() =>
-                                                setChatModalOpen((prev) => ({
-                                                    ...prev,
-                                                    [_id]: false,
-                                                }))
-                                            }
-                                        />
-                                    )}
+
                                 </div>
+                            )}
+                            {isChatModalOpen[_id] && (
+                                <ChatModal
+                                    chatModalName={mainBoard}
+                                    onClose={() =>
+                                        setChatModalOpen((prev) => ({
+                                            ...prev,
+                                            [_id]: false,
+                                        }))
+                                    }
+                                />
                             )}
                         </li>
                     ))}

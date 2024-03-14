@@ -11,8 +11,10 @@ const Login = ({ onLogin }) => {
     const navigate = useNavigate();
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
-    const { setSelectedTab, setContentsComponents } = useAppContext();
+    const { setSelectedBoardId, setContentsComponents } = useAppContext();
     const [isLoggedIn, setLoggedIn] = useState(true);
+
+    const apiInstance = axios.create({ baseURL: "http://localhost:8086" });
 
     const handleLogin = async () => {
         /**
@@ -21,26 +23,32 @@ const Login = ({ onLogin }) => {
          *
          *  로그인 기능 개발 시에는 주석 풀고 진행
          */
-        // try {
-        //     const response = await axios.post('http://localhost:8080/user/login', {
-        //         id: id,
-        //         password: password
-        //     });
-        //     console.log("Login Success");
-        // }
-        // catch (error) {
-        //     console.log("Login Fail");
-        // }
+        try {
+            const response = await apiInstance.post('api/user/login', {
+                uid: id,
+                password: password
+            });
+
+            setLoggedIn(!isLoggedIn);
+            onLogin(id);
+            if(isLoggedIn)
+                navigate('/home');
+
+            console.log("Login Success");
+        }
+        catch (error) {
+            console.log("Login Fail");
+        }
 
         // 임시 로그인 성공 처리
-        setLoggedIn(!isLoggedIn);
-        onLogin(id);
-        if(isLoggedIn)
-            navigate('/home');
+        // setLoggedIn(!isLoggedIn);
+        // onLogin(id);
+        // if(isLoggedIn)
+        //     navigate('/home');
     }
 
     const handleJoin = () => {
-        setSelectedTab("Join");
+        setSelectedBoardId("Join");
         setContentsComponents((prevComponents) => [
             ...prevComponents,
             { tab: "Join", component: Join }

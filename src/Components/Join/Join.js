@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAppContext } from "../../Context/AppContext";
 
 import '../../css/Join.css';
+import axios from "axios";
 
 const Join = () => {
     const navigate = useNavigate();
-    const { apiInstance } = useAppContext();
+    const apiInstance = axios.create({ baseURL: "http://localhost:8083" });
 
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
@@ -96,7 +97,6 @@ const Join = () => {
 
         // API request
         try {
-            // const response = await axios.post('http://localhost:8080/api/user/join', {
             const response = await apiInstance.post('/api/user/join', {
                 uid: id,
                 password: password,
