@@ -80,7 +80,6 @@ const Tabs = () => {
             }));
 
             setBoardPairs(boardInfoArray);
-
         } catch (error) {
             console.error('보드 목록 가져오기 중 에러 발생:', error);
         }
@@ -89,7 +88,6 @@ const Tabs = () => {
     const handleAddBoardClick = async() => {
         if (newBoardName.trim() !== "") {
             try {
-                // API 요청 막기 위한 주석
                 await axios.post('/api/boards', { mainBoard: newBoardName });
                 setNewBoardName("");
                 setIsAddingBoard(false);
@@ -118,7 +116,6 @@ const Tabs = () => {
 
     const handleRenameBoard = async (_id, newBoardName) => {
         try {
-            // API 요청 막기 위한 주석
             await axios.patch(`/api/boards/${_id}`, { mainBoard: newBoardName });
             await fetchBoards();
         } catch (error) {
@@ -128,7 +125,6 @@ const Tabs = () => {
 
     const handleDeleteBoard = async (_id) => {
         try {
-            // API 요청 막기 위한 주석
             await axios.delete(`/api/boards/${_id}`);
             if (selectedBoardId === _id) {
                 setContentsComponents([]);
@@ -139,6 +135,17 @@ const Tabs = () => {
             console.error('보드 삭제 중 에러 발생:', error);
         }
     };
+
+    const handleAddMember = async (_id) => {
+        try {
+            // 그룹 멤버 추가를 위해 boardId와 사용자 uid 전달
+            await axios.patch('http://localhost:8083/api/user/', {
+
+            })
+        } catch (error) {
+            console.error('멤처 추가 중 에러 발생:', error);
+        }
+    }
 
     return (
         <div className="Tabs">
@@ -159,12 +166,14 @@ const Tabs = () => {
                                     <button onClick={() => handleDeleteBoard(_id)}>
                                         Delete
                                     </button>
+                                    <button onClick={() => handleAddMember(_id)}>
 
+                                    </button>
                                 </div>
                             )}
                             {isChatModalOpen[_id] && (
                                 <ChatModal
-                                    chatModalName={mainBoard}
+                                    boardId={ _id }
                                     onClose={() =>
                                         setChatModalOpen((prev) => ({
                                             ...prev,

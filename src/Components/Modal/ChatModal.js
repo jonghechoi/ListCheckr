@@ -4,7 +4,7 @@ import SockJS from "sockjs-client";
 import '../../css/ChatModal.css';
 import axios from "axios";
 
-const ChatModal = ({ chatModalName, onClose }) => {
+const ChatModal = ({ boardId, onClose }) => {
     const [socketConnected, setSocketConnected] = useState(false);
     const [message, setMessage] = useState('');
     const [sendMsg, setSendMsg] = useState(false);
@@ -16,18 +16,18 @@ const ChatModal = ({ chatModalName, onClose }) => {
     const scrollRef = useRef();
 
     useEffect(() => {
-        if (chatModalName) {
-            setBoardName(chatModalName);
+        if (boardId) {
+            setBoardName(boardId);
         }
 
         const socket = new SockJS(webSocketUrl);
         const stomp = Stomp.over(socket);
 
-        stomp.connect({ boardId : chatModalName, sender : "초기 생성인", createTime :  Date.now() }, () => {
+        stomp.connect({ boardId : boardId, sender : "초기 생성인", createTime :  Date.now() }, () => {
             console.log('Stomp 연결 성공');
             setSocketConnected(true);
 
-            stomp.subscribe(`/topic/${chatModalName}`, (message) => {
+            stomp.subscribe(`/topic/${boardId}`, (message) => {
                 const data = JSON.parse(message.body);
                 setItems((prevItems) => [...prevItems, data.messageContent]);
             });
@@ -35,11 +35,11 @@ const ChatModal = ({ chatModalName, onClose }) => {
 
         fetchChatHistory();
         setStompClient(stomp);
-    }, [chatModalName]);
+    }, [boardId]);
 
     const fetchChatHistory = async () => {
         try {
-            const response = await apiInstance.get(chatModalName);
+            const response = await apiInstance.get(boardId);
             if(response.data == '') {
                 return;
             }
@@ -61,9 +61,9 @@ const ChatModal = ({ chatModalName, onClose }) => {
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             if (socketConnected) {
-                stompClient.send(`/chat/pub/topic/${chatModalName}`, { boardId : chatModalName },
+                stompClient.send(`/chat/pub/topic/${boardId}`, { boardId : boardId },
                     JSON.stringify({
-                        boardId: chatModalName,
+                        boardId: boardId,
                         messageContent: {
                             // 추후 로그인 ID로 변경 필수
                             sender: "b",
@@ -119,7 +119,7 @@ const ChatModal = ({ chatModalName, onClose }) => {
                 <div className="input-container">
                     <button onClick={() => {
                         if (stompClient) {
-                            stompClient.disconnect(0, {boardId: chatModalName});
+                            stompClient.disconnect(0, {boardId: boardId});
                         }
                         onClose();
                     }}>Close</button>
