@@ -1,17 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
 import { MdAdd } from 'react-icons/md';
 import { useAppContext } from "../../Context/AppContext";
-// import '../../css/App.css';
-import '../../css/Tabs.css';
+
 import Board from "./Contents/TodoList/Board";
 import ChatModal from "../Modal/ChatModal";
 import axios from "axios";
-import { useBoardContext } from "../../Context/BoardContext";
+
+import '../../css/Tabs.css';
+import MemberAddModal from "../Modal/MemberAddModal";
 
 const Tabs = () => {
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
     const [isChatModalOpen, setChatModalOpen] = useState({});
+    const [isMemberAddModalOpen, setMemberAddModalOpen] = useState({});
     const [openedChatModalBoardId, setOpenedChatModalBoardId] = useState(null);
     const [isAddingBoard, setIsAddingBoard] = useState(false);
     const contentRef = useRef(null);
@@ -62,6 +64,7 @@ const Tabs = () => {
             setSelectedBoardId(_id);
         }
 
+        // 다른 탭 클릭시 open 되어 있는 ChatModal close
         if(openedChatModalBoardId !== _id) {
             setChatModalOpen((prev) => ({
                 ...prev,
@@ -137,14 +140,11 @@ const Tabs = () => {
     };
 
     const handleAddMember = async (_id) => {
-        try {
-            // 그룹 멤버 추가를 위해 boardId와 사용자 uid 전달
-            await axios.patch('http://localhost:8083/api/user/', {
+        setMemberAddModalOpen((prev) => ({ ...prev, [_id]: true }));
+    }
 
-            })
-        } catch (error) {
-            console.error('멤처 추가 중 에러 발생:', error);
-        }
+    const closeMemberAddModal = (_id) => {
+        setMemberAddModalOpen((prev) => ({ ...prev, [_id]: false }));
     }
 
     return (
@@ -167,7 +167,7 @@ const Tabs = () => {
                                         Delete
                                     </button>
                                     <button onClick={() => handleAddMember(_id)}>
-
+                                        Member Add
                                     </button>
                                 </div>
                             )}
@@ -181,6 +181,9 @@ const Tabs = () => {
                                         }))
                                     }
                                 />
+                            )}
+                            {isMemberAddModalOpen[_id] && (
+                                <MemberAddModal _id={_id} onClose={closeMemberAddModal}/>
                             )}
                         </li>
                     ))}
