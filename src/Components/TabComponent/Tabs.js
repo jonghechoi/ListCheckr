@@ -1,18 +1,20 @@
 import React, {useEffect, useRef, useState} from "react";
 import { MdAdd } from 'react-icons/md';
 import { useAppContext } from "../../Context/AppContext";
-// import '../../css/App.css';
-import '../../css/Tabs.css';
+
 import Board from "./Contents/TodoList/Board";
 import ChatModal from "../Modal/ChatModal";
 import axios from "axios";
-import { useBoardContext } from "../../Context/BoardContext";
+
+import '../../css/Tabs.css';
+import MemberAddModal from "../Modal/MemberAddModal";
 
 const Tabs = () => {
-
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
     const [isChatModalOpen, setChatModalOpen] = useState({});
+    const [isMemberAddModalOpen, setMemberAddModalOpen] = useState({});
+    const [openedChatModalBoardId, setOpenedChatModalBoardId] = useState(null);
     const [isAddingBoard, setIsAddingBoard] = useState(false);
     const contentRef = useRef(null);
 
@@ -31,10 +33,10 @@ const Tabs = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
     const handleTabClick =  async (_id) => {
         const isTabAlreadyExists = contentsComponents.some(component => component.tab === _id);
 
-        // setChatModalOpen({}); // 채팅 모달 초기화
         if (!isTabAlreadyExists) {
             try {
                 const todoListResponse = await axios.get(`/api/boards/${_id}/todolist`);
@@ -61,6 +63,14 @@ const Tabs = () => {
         } else {
             setSelectedBoardId(_id);
         }
+
+        // 다른 탭 클릭시 open 되어 있는 ChatModal close
+        if(openedChatModalBoardId !== _id) {
+            setChatModalOpen((prev) => ({
+                ...prev,
+                [openedChatModalBoardId]: false
+            }));
+        }
     };
 
     const fetchBoards = async () => {
@@ -73,7 +83,6 @@ const Tabs = () => {
             }));
 
             setBoardPairs(boardInfoArray);
-
         } catch (error) {
             console.error('보드 목록 가져오기 중 에러 발생:', error);
         }
@@ -82,7 +91,6 @@ const Tabs = () => {
     const handleAddBoardClick = async() => {
         if (newBoardName.trim() !== "") {
             try {
-                // API 요청 막기 위한 주석
                 await axios.post('/api/boards', { mainBoard: newBoardName });
                 setNewBoardName("");
                 setIsAddingBoard(false);
@@ -101,7 +109,7 @@ const Tabs = () => {
     };
 
     const handleChatClick = (_id) => {
-        // setChatModalOpen(true);
+        setOpenedChatModalBoardId(_id);
         setChatModalOpen((prev) => ({ ...prev, [_id]: true }));
     }
 
@@ -111,7 +119,6 @@ const Tabs = () => {
 
     const handleRenameBoard = async (_id, newBoardName) => {
         try {
-            // API 요청 막기 위한 주석
             await axios.patch(`/api/boards/${_id}`, { mainBoard: newBoardName });
             await fetchBoards();
         } catch (error) {
@@ -121,7 +128,6 @@ const Tabs = () => {
 
     const handleDeleteBoard = async (_id) => {
         try {
-            // API 요청 막기 위한 주석
             await axios.delete(`/api/boards/${_id}`);
             if (selectedBoardId === _id) {
                 setContentsComponents([]);
@@ -132,6 +138,15 @@ const Tabs = () => {
             console.error('보드 삭제 중 에러 발생:', error);
         }
     };
+
+    const handleAddMember = async (_id) => {
+        setMemberAddModalOpen((prev) => ({ ...prev, [_id]: true }));
+    }
+
+    const closeMemberAddModal = (_id) => {
+        setMemberAddModalOpen((prev) => ({ ...prev, [_id]: false }));
+    }
+
     return (
         <div className="Tabs">
             <div className="webapp">ListCheckr</div>
@@ -151,18 +166,24 @@ const Tabs = () => {
                                     <button onClick={() => handleDeleteBoard(_id)}>
                                         Delete
                                     </button>
-                                    {isChatModalOpen[_id] && (
-                                        <ChatModal
-                                            chatModalName={mainBoard}
-                                            onClose={() =>
-                                                setChatModalOpen((prev) => ({
-                                                    ...prev,
-                                                    [_id]: false,
-                                                }))
-                                            }
-                                        />
-                                    )}
+                                    <button onClick={() => handleAddMember(_id)}>
+                                        Member Add
+                                    </button>
                                 </div>
+                            )}
+                            {isChatModalOpen[_id] && (
+                                <ChatModal
+                                    boardId={ _id }
+                                    onClose={() =>
+                                        setChatModalOpen((prev) => ({
+                                            ...prev,
+                                            [_id]: false,
+                                        }))
+                                    }
+                                />
+                            )}
+                            {isMemberAddModalOpen[_id] && (
+                                <MemberAddModal _id={_id} onClose={closeMemberAddModal}/>
                             )}
                         </li>
                     ))}

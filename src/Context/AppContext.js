@@ -7,7 +7,7 @@ export const AppProvider = ({ children }) => {
     const [selectedTab, setSelectedTab] = useState("");
     const [contentsComponents, setContentsComponents] = useState([]);
     const [selectedBoardId, setSelectedBoardId] = useState(null);
-    const apiInstance = axios.create({ baseURL: "http://localhost:8083" });
+    const apiInstance = axios.create({ baseURL: "http://localhost" });
 
     const contextValue = {
         selectedTab,
