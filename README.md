@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# 목차
+1. [ListCheckr 프로젝트 개요](#Catchmind-프로젝트-개요)
+2. [담당 페이지 및 기능](#담당-페이지-및-기능)
+3. [아키텍처](#아키텍처)
+4. [🚀 고도화](#-고도화)
+5. [💡 느낀점](#-느낀점)  
+   <br/><br/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ListCheckr 프로젝트 개요
+사용자의 일정을 관리하고 그룹과 실시간 공유할 수 있는 Todo Task 서비스입니다. <br/>
+<img src="" width="800" height="400">
 
-## Available Scripts
+<br/>
 
-In the project directory, you can run:
+# 담당 페이지 및 기능
+총 3개의 페이지를 담당했습니다.
 
-### `npm start`
+- ### Login
+  <img src="" width="400" height="200">
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- ### 회원 가입
+  <img src="" width="400" height="200">
+  <img src="" width="400" height="200">
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- ### 채팅
+  <img src="" width="400" height="200">
 
-### `npm test`
+<br/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 아키텍처
+Domian Driven Design 설계를 기반으로 총 5개의 도메인(회원 관리, 로그인, task, 결제, 채팅)을 도출했습니다. → [링크](https://jonghe.notion.site/a6c069b0f88e47daa54b16ec47a68c14?pvs=4) <br/>
+각 도메인은 마이크로서비스 애플리케이션으로 구성됩니다. 
 
-### `npm run build`
+- ## 인프라
+  ### local
+  #### 로컬에서는 각 애플리케이션 별 개발과 단위테스트를 할 수 있습니다. 통합테스트가 필요한 부분에서는 카프카를 이용해 데이터를 공유하며 진행했습니다.
+  ![Infra_Local](https://github.com/jonghechoi/dicom-bridge/assets/57426066/0aeedafb-201e-45b2-b908-c106960b5818)
+  ### dev
+  #### 모든 애플리케이션은 도커 파일로 빌드(CI 파이프라인 사용하자. Github Actions or Jenkins)되고 도커 컴포즈로 한번에 조작될 수 있도록 구성했습니다.
+  ![Infra_Dev](https://github.com/jonghechoi/dicom-bridge/assets/57426066/edff9ffa-f980-4971-b197-1db098e165f7)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- ## 애플리케이션
+  ![Application_Architecture](https://github.com/jonghechoi/dicom-bridge/assets/57426066/1b6a0ac4-c4ea-4c37-92d9-f059985ea61f)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 🚀 고도화
+- CI/CD <br/>
+  Jenkins로 파이프라인을 구성했습니다. → [링크](https://github.com/jonghechoi/ListCheckr_member/blob/master/Jenkinsfile) <br/> 
+  각 애플리케이션의 레포지토리 master브랜치에 커밋이 발생하면 자동으로 dev 환경에 있는 애플리케이션이 업데이트됩니다.
+- AOP <br/> 
+  Logging, Exception 처리
+- TDD <br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br/>
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 💡 느낀점 및 개선점
+- ### 느낀점
+  1. 리팩토링을 어떻게 해야 할지에 대한 고민이 많았습니다. 특히, 객체 지향적으로 설계하고자 노력했습니다.
+  2. 
+- ### 개선점
+  1. DB의 read/write 측면을 고려하여 읽기전용 복제본을 만들 필요는 없는가?
+  2. AWS 배포시 Beanstalk를 사용해볼 수도 있지 않은가? 컨테이너로 올린다면 EKS를 사용하는건 어떤가?
+  3. HTTPS 적용
+  4. 보안 측면에서 더 적용해야 할 점은 없는가?

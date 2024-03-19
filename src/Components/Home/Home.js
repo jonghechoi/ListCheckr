@@ -5,13 +5,13 @@ import Contents from "../TabComponent/Contents/Contents";
 
 import '../../css/App.css';
 
-const Home = ({ loggedInUserId }) => {
+const Home = ({ loggedInUserInfo }) => {
     return (
         <div className="Home">
                 <>
-                    <Header loggedInUserId={loggedInUserId} />
-                    <Tabs />
-                    <Contents />
+                    <Header loggedInUserId={loggedInUserInfo.id} />
+                    <Tabs userInfo={loggedInUserInfo.userInfo} />
+                    <Contents userInfo={loggedInUserInfo.userInfo} />
                 </>
         </div>
     );
