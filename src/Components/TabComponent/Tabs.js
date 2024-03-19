@@ -9,7 +9,7 @@ import axios from "axios";
 import '../../css/Tabs.css';
 import MemberAddModal from "../Modal/MemberAddModal";
 
-const Tabs = () => {
+const Tabs = ({ userInfo }) => {
     const [boardPairs, setBoardPairs] = useState([]);
     const [newBoardName, setNewBoardName] = useState("");
     const [isChatModalOpen, setChatModalOpen] = useState({});

@@ -3,7 +3,7 @@ import { useAppContext } from "../../../Context/AppContext";
 import '../../../css/App.css';
 
 
-const Contents = () => {
+const Contents = ({ userInfo }) => {
     const { selectedBoardId, contentsComponents, todoListId } = useAppContext();
 
     // useEffect(() => {
@@ -11,7 +11,7 @@ const Contents = () => {
 
     const components = {
         ...contentsComponents.reduce((acc, { tab, component }) => {
-            acc[tab] = React.createElement(component);;
+            acc[tab] = React.createElement(component);
             return acc;
         }, {})
     };

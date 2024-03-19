@@ -28,9 +28,10 @@ const Login = ({ onLogin }) => {
                 uid: id,
                 password: password
             });
+            console.log(response.headers)
+            onLogin(id, response.headers.get('Authorization'));
 
             setLoggedIn(!isLoggedIn);
-            onLogin(id);
             if(isLoggedIn)
                 navigate('/home');
 
