@@ -20,6 +20,15 @@ const Tabs = ({ userInfo }) => {
 
     const { setContentsComponents, contentsComponents, selectedBoardId, setSelectedBoardId } = useAppContext();
 
+    const config = userInfo ? {
+        headers: {
+            Authorization: `Bearer ${userInfo}`
+        }
+    } : {};
+    
+    useEffect(() => {
+       console.log("token:", userInfo);
+    },[userInfo]);
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (contentRef.current && !contentRef.current.contains(e.target)) {
@@ -39,7 +48,7 @@ const Tabs = ({ userInfo }) => {
 
         if (!isTabAlreadyExists) {
             try {
-                const todoListResponse = await axios.get(`/api/boards/${_id}/todolist`);
+                const todoListResponse = await axios.get(`/api/boards/${_id}/todolist`, config);
                 const todoList = todoListResponse.data;
 
                 setContentsComponents(prevComponents => [
@@ -50,8 +59,8 @@ const Tabs = ({ userInfo }) => {
                         component: () => (
                             <Board
                                 boardId={_id}
-                                // todoListIds={todoList.map((list) => list._id)}
                                 title={todoList && todoList.length > 0 ? todoList[0].title : null}
+                                token={userInfo}
                             />
                         ),
                     },
@@ -75,13 +84,13 @@ const Tabs = ({ userInfo }) => {
 
     const fetchBoards = async () => {
         try {
-            const response = await axios.get('/api/boards');
+            const response = await axios.get('/api/boards', config);
 
             const boardInfoArray = response.data.map(board => ({
                 _id: board._id,
                 mainBoard: board.mainBoard
             }));
-
+            console.log(boardInfoArray);
             setBoardPairs(boardInfoArray);
         } catch (error) {
             console.error('보드 목록 가져오기 중 에러 발생:', error);
@@ -91,7 +100,7 @@ const Tabs = ({ userInfo }) => {
     const handleAddBoardClick = async() => {
         if (newBoardName.trim() !== "") {
             try {
-                await axios.post('/api/boards', { mainBoard: newBoardName });
+                await axios.post('/api/boards', { mainBoard: newBoardName }, config);
                 setNewBoardName("");
                 setIsAddingBoard(false);
             } catch (error){
@@ -119,7 +128,7 @@ const Tabs = ({ userInfo }) => {
 
     const handleRenameBoard = async (_id, newBoardName) => {
         try {
-            await axios.patch(`/api/boards/${_id}`, { mainBoard: newBoardName });
+            await axios.patch(`/api/boards/${_id}`, { mainBoard: newBoardName }, config);
             await fetchBoards();
         } catch (error) {
             console.error('보드 이름 변경 중 에러 발생:', error);
@@ -128,7 +137,7 @@ const Tabs = ({ userInfo }) => {
 
     const handleDeleteBoard = async (_id) => {
         try {
-            await axios.delete(`/api/boards/${_id}`);
+            await axios.delete(`/api/boards/${_id}`, config);
             if (selectedBoardId === _id) {
                 setContentsComponents([]);
                 setSelectedBoardId(null);

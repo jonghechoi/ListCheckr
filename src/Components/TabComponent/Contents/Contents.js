@@ -4,6 +4,7 @@ import '../../../css/App.css';
 
 
 const Contents = ({ userInfo }) => {
+
     const { selectedBoardId, contentsComponents, todoListId } = useAppContext();
 
     // useEffect(() => {
@@ -11,7 +12,7 @@ const Contents = ({ userInfo }) => {
 
     const components = {
         ...contentsComponents.reduce((acc, { tab, component }) => {
-            acc[tab] = React.createElement(component);
+            acc[tab] = React.createElement(component, { userInfo });
             return acc;
         }, {})
     };

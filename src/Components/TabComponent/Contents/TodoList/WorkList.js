@@ -25,8 +25,8 @@ const WorkList = ({ works, todoListId }) => {
                 subject,
                 detail: detail || '',
             });
-
-            setLoadedWorks(prevWorks => [...prevWorks, workResponse.data]);
+            const newWork = workResponse.data;
+            setLoadedWorks(prevWorks => [...prevWorks, newWork]);
         } catch (error) {
             console.error('할 일 추가 중 에러 발생:', error);
         }
