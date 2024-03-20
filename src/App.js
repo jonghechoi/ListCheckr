@@ -11,7 +11,7 @@ function App() {
     const [loggedInUserInfo, setLoggedInUserInfo] = useState(null);
 
     const handleLogin = (id, userInfo) => {
-        setLoggedInUserInfo({ id: id, userInfo: userInfo});
+        setLoggedInUserInfo({ id: id, userInfo: userInfo });
     }
 
     return (

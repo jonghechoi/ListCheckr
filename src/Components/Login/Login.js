@@ -17,35 +17,28 @@ const Login = ({ onLogin }) => {
     const apiInstance = axios.create({ baseURL: "http://localhost:8086" });
 
     const handleLogin = async () => {
-        /**
-         *  우선 로그인 기능(백엔드)이 개발되기 이전에는 API 호출 막고 버튼 클릭으로
-         *  Todo-List 페이지로 이동할 수 있도록 함
-         *
-         *  로그인 기능 개발 시에는 주석 풀고 진행
-         */
         try {
             const response = await apiInstance.post('api/user/login', {
                 uid: id,
                 password: password
             });
-            console.log(response.headers)
-            onLogin(id, response.headers.get('Authorization'));
+
+            onLogin(id, response.headers.get("Authorization"));
+            localStorage.setItem("userInfo", JSON.stringify({
+                id: id,
+                token: response.headers.get("Authorization")
+            }))
 
             setLoggedIn(!isLoggedIn);
-            if(isLoggedIn)
+            if(isLoggedIn) {
                 navigate('/home');
+            }
 
             console.log("Login Success");
         }
         catch (error) {
             console.log("Login Fail");
         }
-
-        // 임시 로그인 성공 처리
-        // setLoggedIn(!isLoggedIn);
-        // onLogin(id);
-        // if(isLoggedIn)
-        //     navigate('/home');
     }
 
     const handleJoin = () => {
