@@ -6,6 +6,7 @@ import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import Contents from "./Components/TabComponent/Contents/Contents";
+import Join from "./Components/Join/Join";
 
 function App() {
     const [loggedInUserInfo, setLoggedInUserInfo] = useState(null);
@@ -21,6 +22,7 @@ function App() {
                   <div className="App">
                       <Routes>
                           <Route path="/" element={ <Login onLogin={handleLogin} /> } />
+                          <Route path="/join" element={ <Join /> } />
                           <Route path="/home" element={ loggedInUserInfo ? <Home loggedInUserInfo={loggedInUserInfo} /> : <Navigate to="/" /> } />
                           <Route path="/contents" element={ loggedInUserInfo ? <Contents loggedInUserInfo={loggedInUserInfo} /> : <Navigate to="/" /> } />
                       </Routes>

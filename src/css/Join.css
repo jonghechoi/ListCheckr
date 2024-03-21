@@ -1,9 +1,9 @@
 div.join {
     flex: 1;
+    width: 100%;
     position: relative;
     text-align: center;
 }
-
 form > div > input,
 #country,
 #gender {

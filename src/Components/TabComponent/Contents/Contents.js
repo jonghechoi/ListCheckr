@@ -3,7 +3,7 @@ import { useAppContext } from "../../../Context/AppContext";
 import '../../../css/App.css';
 
 
-const Contents = ({ userInfo }) => {
+const Contents = () => {
     const { selectedBoardId, contentsComponents, todoListId } = useAppContext();
 
     // useEffect(() => {

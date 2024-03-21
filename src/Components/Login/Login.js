@@ -42,12 +42,11 @@ const Login = ({ onLogin }) => {
     }
 
     const handleJoin = () => {
-        setSelectedBoardId("Join");
         setContentsComponents((prevComponents) => [
             ...prevComponents,
             { tab: "Join", component: Join }
         ]);
-        navigate('/home');
+        navigate('/join');
     }
 
     return (
