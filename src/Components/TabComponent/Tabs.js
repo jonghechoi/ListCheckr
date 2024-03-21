@@ -131,7 +131,13 @@ const Tabs = ({ userInfo }) => {
             await axios.patch(`/api/boards/${_id}`, { mainBoard: newBoardName }, config);
             await fetchBoards();
         } catch (error) {
+            if (error.response && error.response.status === 403 && error.response.data.error === 'unmatchedMaster'){
+                alert('본인이 생성한 보드만 수정할 수 있습니다.');
+            } else if ( error.response && error.response.status === 400 && error.response.data.error === 'existingBoard'){
+                alert('이미 존재하는 보드 이름입니다. 다른 이름을 입력하세요.');
+            } else{
             console.error('보드 이름 변경 중 에러 발생:', error);
+            }
         }
     };
 
@@ -144,7 +150,11 @@ const Tabs = ({ userInfo }) => {
             }
             await fetchBoards();
         } catch (error) {
-            console.error('보드 삭제 중 에러 발생:', error);
+            if (error.response && error.response.status === 405 && error.response.data.error === 'unmatchedMaster'){
+                alert('본인이 생성한 보드만 삭제할 수 있습니다.');
+            } else{
+                console.error('보드 삭제중 에러 발생:', error);
+            }
         }
     };
 
