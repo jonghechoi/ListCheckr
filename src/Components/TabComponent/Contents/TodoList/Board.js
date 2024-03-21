@@ -6,7 +6,8 @@ import WorkList from "./WorkList";
 import '../../../../css/Board.css'
 import axios from "axios";
 
-const Board = () => {
+const Board = (props) => {
+    console.log("boardToken:",props.token)
     const { selectedBoardId } = useAppContext();
     const [todoLists, setTodoLists] = useState( []);
 

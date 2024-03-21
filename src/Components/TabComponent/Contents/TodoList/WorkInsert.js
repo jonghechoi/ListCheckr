@@ -25,7 +25,7 @@ const WorkInsert = ({ onInsert, todoListId, boardId }) => {
     const onChangeSubject = useCallback((e) => {
         setSubject(e.target.value);
 
-    }, []);
+    }, [setSubject]);
 
     const onChangeDetail = useCallback((e) => {
         setDetail(e.target.value);
