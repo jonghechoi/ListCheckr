@@ -104,7 +104,9 @@ const Tabs = ({ userInfo }) => {
                 setNewBoardName("");
                 setIsAddingBoard(false);
             } catch (error){
-                if (error.response && error.response.status === 400 && error.response.data.error === 'existingBoard'){
+                if(error.response && error.response.status === 403 && error.response.data.error === 'needToPay'){
+                    alert('3개 이상의 보드생성은 결제가 필요합니다.');
+                } else if (error.response && error.response.status === 400 && error.response.data.error === 'existingBoard'){
                     alert('이미 존재하는 보드 이름입니다. 다른 이름을 입력하세요.');
                 } else {
                     console.error('새로운 보드 추가 중 에러 발생:', error);
