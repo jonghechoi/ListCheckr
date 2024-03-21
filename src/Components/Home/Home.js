@@ -9,7 +9,7 @@ const Home = ({ loggedInUserInfo }) => {
     return (
         <div className="Home">
                 <>
-                    <Header loggedInUserId={loggedInUserInfo.id} />
+                    <Header />
                     <Tabs userInfo={loggedInUserInfo.userInfo} />
                     <Contents userInfo={loggedInUserInfo.userInfo} />
                 </>

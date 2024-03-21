@@ -2,9 +2,7 @@ import React, {useEffect} from "react";
 import { useAppContext } from "../../../Context/AppContext";
 import '../../../css/App.css';
 
-
 const Contents = ({ userInfo }) => {
-
     const { selectedBoardId, contentsComponents, todoListId } = useAppContext();
 
     // useEffect(() => {

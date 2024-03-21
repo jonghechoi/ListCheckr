@@ -192,7 +192,7 @@ const Tabs = ({ userInfo }) => {
                                 />
                             )}
                             {isMemberAddModalOpen[_id] && (
-                                <MemberAddModal _id={_id} onClose={closeMemberAddModal}/>
+                                <MemberAddModal _id={_id} onClose={closeMemberAddModal} />
                             )}
                         </li>
                     ))}
