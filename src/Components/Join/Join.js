@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useAppContext } from "../../Context/AppContext";
 
 import '../../css/Join.css';
 import axios from "axios";
@@ -126,7 +125,7 @@ const Join = () => {
                         id="id"
                         name="id"
                         placeholder="아이디"
-                        style={ error.id ? { borderColor: 'red' } : { borderColor: 'green' } }
+                        style={ error.id ? { borderColor: 'red' } : { borderColor: 'darkslategray' } }
                         onChange={ (e) =>  {
                             setId(e.target.value);
                             handleId() } } />
@@ -135,7 +134,7 @@ const Join = () => {
                         id="password"
                         name="password"
                         placeholder="비밀번호"
-                        style={ error.password ? { borderColor: 'red' } : { borderColor: 'green' } }
+                        style={ error.password ? { borderColor: 'red' } : { borderColor: 'darkslategray' } }
                         onChange={ (e) => {
                             setPassword(e.target.value);
                             handlePassword() }} />
@@ -159,7 +158,7 @@ const Join = () => {
                         id="name"
                         name="name"
                         placeholder="이름"
-                        style={ error.name ? { borderColor: 'red' } : { borderColor: 'green' } }
+                        style={ error.name ? { borderColor: 'red' } : { borderColor: 'darkslategray' } }
                         onChange={(e) => {
                             setName(e.target.value);
                             handleName() } } />
@@ -168,7 +167,7 @@ const Join = () => {
                         id="birth"
                         name="birth"
                         placeholder="생년월일 8자리"
-                        style={ error.birth ? { borderColor: 'red' } : { borderColor: 'green' } }
+                        style={ error.birth ? { borderColor: 'red' } : { borderColor: 'darkslategray' } }
                         onChange={(e) => {
                             setBirth(e.target.value);
                             handleBirth() } } />
@@ -216,8 +215,8 @@ const Join = () => {
                         type="text"
                         name="phone"
                         id="phone"
-                        placeholder="전화번호 ###-####-####"
-                        style={ error.phone ? { borderColor: 'red' } : { borderColor: 'green' } }
+                        placeholder="전화번호 000-0000-0000"
+                        style={ error.phone ? { borderColor: 'red' } : { borderColor: 'darkslategray' } }
                         onChange={(e) => {
                             setPhone(e.target.value)
                             handlePhone() } } />
