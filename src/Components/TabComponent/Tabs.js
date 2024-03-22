@@ -25,10 +25,24 @@ const Tabs = ({ userInfo }) => {
             Authorization: `Bearer ${userInfo}`
         }
     } : {};
-    
+
+    const websocketUrl = 'ws://localhost:3001';
+
     useEffect(() => {
-       console.log("token:", userInfo);
-    },[userInfo]);
+        const socket = new WebSocket(websocketUrl);
+        socket.onopen = () => {
+            console.log('웹 소켓 연결됨');
+        };
+
+        socket.onmessage = (event) => {
+            console.log('수신된 메시지:', event.data);
+        };
+
+        return () => {
+            socket.close();
+        };
+    }, []);
+
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (contentRef.current && !contentRef.current.contains(e.target)) {
